@@ -38,6 +38,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IFlightService, FlightService>();
 builder.Services.AddScoped<ICountryService, CountryService>();
 builder.Services.AddScoped<ICityService, CityService>();
+builder.Services.AddScoped<IAircraftService, AircraftService>();
 
 var app = builder.Build();
 

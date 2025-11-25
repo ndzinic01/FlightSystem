@@ -1,8 +1,7 @@
 ﻿namespace FlightSystem.DTOs.Aircraft
 {
-    public class AircraftGetDTO
+    public class AircraftAddUpdateDTO
     {
-        public int Id { get; set; }
         public string Model { get; set; } = string.Empty;
         public string RegistrationNumber { get; set; } = string.Empty;
         public int YearManufacturer { get; set; }

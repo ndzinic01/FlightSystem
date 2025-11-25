@@ -1,13 +1,13 @@
-﻿//using FlightSystem.DTOs.Aircraft;
+﻿using FlightSystem.DTOs.Aircraft;
 
-//namespace FlightSystem.Services.Interfaces
-//{
-//    public interface IAircraftService
-//    {
-//        List<AircraftGetDto> GetAll();
-//        AircraftGetDto? GetById(int id);
-//        AircraftGetDto Create(AircraftCreateDto dto);
-//        AircraftGetDto? Update(int id, AircraftCreateDto dto);
-//        bool Delete(int id);
-//    }
-//}
+namespace FlightSystem.Services
+{
+    public interface IAircraftService
+    {
+        Task<List<AircraftGetDTO>> GetAllAsync();
+        Task<AircraftGetDTO?> GetByIdAsync(int id);
+        Task<AircraftGetDTO> AddAsync(AircraftAddUpdateDTO dto);
+        Task<AircraftGetDTO?> UpdateAsync(int id, AircraftAddUpdateDTO dto);
+        Task<bool> DeleteAsync(int id);
+    }
+}

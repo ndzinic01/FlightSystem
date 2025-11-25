@@ -1,61 +1,61 @@
-﻿//using FlightSystem.DTOs.Aircraft;
-//using FlightSystem.Services.Interfaces;
-//using Microsoft.AspNetCore.Mvc;
+﻿using FlightSystem.DTOs.Aircraft;
+using FlightSystem.Services;
+using Microsoft.AspNetCore.Mvc;
 
-//namespace FlightSystem.Controllers
-//{
-//    [ApiController]
-//    [Route("api/[controller]")]
-//    public class AircraftController : ControllerBase
-//    {
-//        private readonly IAircraftService _service;
+namespace FlightSystem.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AircraftController : ControllerBase
+    {
+        private readonly IAircraftService _service;
 
-//        public AircraftController(IAircraftService service)
-//        {
-//            _service = service;
-//        }
+        public AircraftController(IAircraftService service)
+        {
+            _service = service;
+        }
 
-//        [HttpGet("get-all")]
-//        public IActionResult GetAll()
-//        {
-//            return Ok(_service.GetAll());
-//        }
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            return Ok(await _service.GetAllAsync());
+        }
 
-//        [HttpGet("{id}")]
-//        public IActionResult GetById(int id)
-//        {
-//            var aircraft = _service.GetById(id);
-//            if (aircraft == null)
-//                return NotFound("Aircraft not found");
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var result = await _service.GetByIdAsync(id);
+            if (result == null)
+                return NotFound();
 
-//            return Ok(aircraft);
-//        }
+            return Ok(result);
+        }
 
-//        [HttpPost("add")]
-//        public IActionResult Create(AircraftCreateDto dto)
-//        {
-//            var result = _service.Create(dto);
-//            return Ok(result);
-//        }
+        [HttpPost]
+        public async Task<IActionResult> Add(AircraftAddUpdateDTO dto)
+        {
+            return Ok(await _service.AddAsync(dto));
+        }
 
-//        [HttpPut("update/{id}")]
-//        public IActionResult Update(int id, AircraftCreateDto dto)
-//        {
-//            var result = _service.Update(id, dto);
-//            if (result == null)
-//                return NotFound("Aircraft not found");
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, AircraftAddUpdateDTO dto)
+        {
+            var result = await _service.UpdateAsync(id, dto);
+            if (result == null)
+                return NotFound();
 
-//            return Ok(result);
-//        }
+            return Ok(result);
+        }
 
-//        [HttpDelete("delete/{id}")]
-//        public IActionResult Delete(int id)
-//        {
-//            var ok = _service.Delete(id);
-//            if (!ok)
-//                return NotFound("Aircraft not found");
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            bool deleted = await _service.DeleteAsync(id);
+            if (!deleted)
+                return NotFound();
 
-//            return Ok("Deleted");
-//        }
-//    }
-//}
+            return Ok(new { message = "Aircraft deleted." });
+        }
+    }
+}
+
