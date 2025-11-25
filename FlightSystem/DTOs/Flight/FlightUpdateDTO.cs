@@ -2,18 +2,17 @@
 
 namespace FlightSystem.DTOs.Flight
 {
-    public class FlightGetDTO
+    public class FlightUpdateDTO
     {
-        public int Id { get; set; }
         public string Code { get; set; }
-        public string Destination { get; set; }
-        public string Airline { get; set; }
-        public string Aircraft { get; set; }
+        public int DestinationId { get; set; }
+        public int AirlineId { get; set; }
+        public int AircraftId { get; set; }
         public DateTime DepartureTime { get; set; }
         public DateTime ArrivalTime { get; set; }
-        public string Status { get; set; }
         public decimal Price { get; set; }
         public int AvailableSeats { get; set; }
+        public FlightStatus Status { get; set; }
     }
 
 }

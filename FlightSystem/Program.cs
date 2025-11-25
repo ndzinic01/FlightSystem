@@ -1,4 +1,6 @@
 using FlightSystem.Data;
+using FlightSystem.Services;
+
 //using FlightSystem.Services.Interfaces;
 //using FlightSystem.Services;
 using Microsoft.EntityFrameworkCore;
@@ -31,7 +33,7 @@ builder.Services.AddSwaggerGen();
 
 //builder.Services.AddScoped<IAirportService, AirportService>();
 //builder.Services.AddScoped<IAircraftService, AircraftService>();
-//builder.Services.AddScoped<IFlightService, FlightService>();
+builder.Services.AddScoped<IFlightService, FlightService>();
 
 
 

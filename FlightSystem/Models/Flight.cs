@@ -13,6 +13,7 @@ namespace FlightSystem.Models
     public class Flight
     {
         public int Id { get; set; }
+        public string Code { get; set; }
         public int DestinationId { get; set; }
         [ForeignKey(nameof(DestinationId))]
         public Destination Destination { get; set; }
@@ -22,7 +23,6 @@ namespace FlightSystem.Models
         public int AircraftId { get; set; }
         [ForeignKey(nameof(AircraftId))]
         public Aircraft Aircraft { get; set; }
-
         public DateTime DepartureTime { get; set; }
         public DateTime ArrivalTime { get; set; }
         public FlightStatus Status { get; set; } = FlightStatus.Scheduled;
