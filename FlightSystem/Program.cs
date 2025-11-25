@@ -1,5 +1,7 @@
 using FlightSystem.Data;
 using FlightSystem.Services;
+using FlightSystem.Services.Interfaces;
+
 
 //using FlightSystem.Services.Interfaces;
 //using FlightSystem.Services;
@@ -34,8 +36,8 @@ builder.Services.AddSwaggerGen();
 //builder.Services.AddScoped<IAirportService, AirportService>();
 //builder.Services.AddScoped<IAircraftService, AircraftService>();
 builder.Services.AddScoped<IFlightService, FlightService>();
-
-
+builder.Services.AddScoped<ICountryService, CountryService>();
+builder.Services.AddScoped<ICityService, CityService>();
 
 var app = builder.Build();
 
