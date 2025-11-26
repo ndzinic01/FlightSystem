@@ -1,10 +1,8 @@
 using FlightSystem.Data;
+using FlightSystem.Models;
 using FlightSystem.Services;
 using FlightSystem.Services.Interfaces;
 
-
-//using FlightSystem.Services.Interfaces;
-//using FlightSystem.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -39,6 +37,11 @@ builder.Services.AddScoped<ICityService, CityService>();
 builder.Services.AddScoped<IAircraftService, AircraftService>();
 builder.Services.AddScoped<IAirlineService, AirlineService>();
 builder.Services.AddScoped<IAirportService, AirportService>();
+builder.Services.AddScoped<IDestinationService, DestinationService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IReservationService, ReservationService>();
+builder.Services.AddScoped<IAdditionalBaggageService, AdditionalBaggageService>();
 
 var app = builder.Build();
 
