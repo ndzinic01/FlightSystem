@@ -30,7 +30,7 @@ namespace FlightSystem.Services
                     Aircraft = $"{x.Aircraft.Manufacturer} {x.Aircraft.Model}",
                     DepartureTime = x.DepartureTime,
                     ArrivalTime = x.ArrivalTime,
-                    Status = x.Status.ToString(),
+                    Status = x.Status,
                     Price = x.Price,
                     AvailableSeats = x.AvailableSeats
                 })
@@ -57,7 +57,7 @@ namespace FlightSystem.Services
                 Aircraft = $"{flight.Aircraft.Manufacturer} {flight.Aircraft.Model}",
                 DepartureTime = flight.DepartureTime,
                 ArrivalTime = flight.ArrivalTime,
-                Status = flight.Status.ToString(),
+                Status = flight.Status,
                 Price = flight.Price,
                 AvailableSeats = flight.AvailableSeats
             };
@@ -73,6 +73,7 @@ namespace FlightSystem.Services
                 AircraftId = dto.AircraftId,
                 DepartureTime = dto.DepartureTime,
                 ArrivalTime = dto.ArrivalTime,
+                Status = dto.Status,
                 Price = dto.Price,
                 AvailableSeats = dto.AvailableSeats
             };

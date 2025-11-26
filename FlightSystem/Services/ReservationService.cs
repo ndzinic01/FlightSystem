@@ -70,6 +70,20 @@ namespace FlightSystem.Services
             if (flight == null)
                 throw new Exception("Flight not found.");
 
+            // Zabrana rezervacije ako je let otkazan
+            if (flight.Status == FlightStatus.Cancelled)
+                throw new Exception("Reservation not allowed. Flight has been cancelled.");
+
+            // Ako nema više slobodnih mjesta
+            if (flight.AvailableSeats <= 0)
+                throw new Exception("No available seats for this flight!");
+
+            // Provjera da li je isto sjedalo već rezervisano
+            bool seatAlreadyTaken = await _db.Reservations
+                .AnyAsync(r => r.FlightId == dto.FlightId && r.SeatNumber == dto.SeatNumber);
+            if (seatAlreadyTaken)
+                throw new Exception($"Seat {dto.SeatNumber} is already reserved!");
+
             decimal total = flight.Price;
 
             if (dto.AdditionalBaggageId.HasValue)
@@ -89,6 +103,7 @@ namespace FlightSystem.Services
             };
 
             _db.Reservations.Add(reservation);
+            flight.AvailableSeats--;
             await _db.SaveChangesAsync();
 
             return await GetByIdAsync(reservation.Id);
