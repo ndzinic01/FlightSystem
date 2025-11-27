@@ -73,6 +73,16 @@ builder.Services.AddAuthentication("Bearer")
     });
 
 builder.Services.AddAuthorization();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngular",
+        builder => builder
+            .WithOrigins("http://localhost:4200") // Angular app URL
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials());
+});
+
 
 // Dependency Injection for Services
 builder.Services.AddScoped<IFlightService, FlightService>();
@@ -97,6 +107,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("AllowAngular");
 
 // **Mora prvo Authentication ? pa Authorization**
 app.UseAuthentication();

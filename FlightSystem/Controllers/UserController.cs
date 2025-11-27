@@ -29,11 +29,11 @@ public class UserController : ControllerBase
         return Ok(result);
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Create(UserAddDTO dto)
-    {
-        return Ok(await _service.CreateAsync(dto));
-    }
+    //[HttpPost]
+    //public async Task<IActionResult> Create(UserAddDTO dto)
+    //{
+    //    return Ok(await _service.CreateAsync(dto));
+    //}
 
     [HttpPut]
     public async Task<IActionResult> Update(UserUpdateDTO dto)
@@ -61,6 +61,20 @@ public class UserController : ControllerBase
 
         return Ok(result);
     }
+    [HttpPost("register")]
+    public async Task<IActionResult> Register(UserAddDTO dto)
+    {
+        try
+        {
+            var result = await _service.RegisterAsync(dto);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+    }
+
 
 }
 

@@ -71,21 +71,30 @@ namespace FlightSystem.Services
             };
         }
 
-        public async Task<UserGetDTO> CreateAsync(UserAddDTO dto)
+        public async Task<UserGetDTO?> RegisterAsync(UserAddDTO dto)
         {
+            // Provjeri da li već postoji username ili email
+            if (await _db.Users.AnyAsync(u => u.Username == dto.Username))
+                throw new Exception("Username already exists.");
+
+            if (await _db.Users.AnyAsync(u => u.Email == dto.Email))
+                throw new Exception("Email already exists.");
+
             string salt = GenerateSalt();
             string hash = HashPassword(dto.Password, salt);
 
-            var user = new FlightSystem.Models.User
+            var user = new User
             {
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,
                 Username = dto.Username,
                 Email = dto.Email,
                 PhoneNumber = dto.PhoneNumber,
-                Role = dto.Role,
+                Role = "Customer", // default role
                 PasswordSalt = salt,
-                PasswordHash = hash
+                PasswordHash = hash,
+                IsActive = true,
+                IsDeleted = false
             };
 
             _db.Users.Add(user);
@@ -104,6 +113,7 @@ namespace FlightSystem.Services
                 IsDeleted = user.IsDeleted
             };
         }
+
 
         public async Task<UserGetDTO?> UpdateAsync(UserUpdateDTO dto)
         {
@@ -162,11 +172,11 @@ namespace FlightSystem.Services
 
             // === JWT Token ===
             var claims = new List<Claim>
-    {
-        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-        new Claim(ClaimTypes.Name, user.Username),
-        new Claim(ClaimTypes.Role, user.Role)
-    };
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.Role, user.Role)
+            };
 
             var key = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(_config["Jwt:Key"])
@@ -201,7 +211,6 @@ namespace FlightSystem.Services
                 }
             };
         }
-    
 
     }
 }

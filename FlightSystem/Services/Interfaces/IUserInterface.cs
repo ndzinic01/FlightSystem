@@ -7,7 +7,7 @@ namespace FlightSystem.Services.Interfaces
     {
         Task<List<UserGetDTO>> GetAllAsync();
         Task<UserGetDTO?> GetByIdAsync(int id);
-        Task<UserGetDTO> CreateAsync(UserAddDTO dto);
+        Task<UserGetDTO> RegisterAsync(UserAddDTO dto);
         Task<UserGetDTO?> UpdateAsync(UserUpdateDTO dto);
         Task<bool> DeleteAsync(int id);
         Task<LoginResponseDTO?> LoginAsync(LoginDTO dto, params string[] allowedRoles);
