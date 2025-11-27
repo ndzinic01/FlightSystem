@@ -1,12 +1,39 @@
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-  <div>
-    <label>Username</label>
-    <input formControlName="username" type="text">
+<div class="login-container">
+
+  <div class="login-card">
+    <h2>Prijava</h2>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+      <div class="form-group">
+        <label for="username">Korisničko ime</label>
+        <input
+          id="username"
+          type="text"
+          placeholder="Unesite korisničko ime"
+          formControlName="username"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Lozinka</label>
+        <input
+          id="password"
+          type="password"
+          placeholder="Unesite lozinku"
+          formControlName="password"
+        />
+      </div>
+
+      <button type="submit" [disabled]="loginForm.invalid">
+        Prijavi se
+      </button>
+
+    </form>
+
+
   </div>
-  <div>
-    <label>Password</label>
-    <input formControlName="password" type="password">
-  </div>
-  <button type="submit" [disabled]="loginForm.invalid">Login</button>
-</form>
+
+</div>
+
 

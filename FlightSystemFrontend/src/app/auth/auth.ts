@@ -11,7 +11,8 @@ interface LoginResponse {
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class Auth {
+
   private baseUrl = 'https://localhost:7251/api/User';
   private currentUserSubject = new BehaviorSubject<any>(null);
 

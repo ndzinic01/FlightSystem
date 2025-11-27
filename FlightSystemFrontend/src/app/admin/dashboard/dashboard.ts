@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthService} from '../../auth/auth';
+import {Auth} from '../../auth/auth';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-dashboard',
@@ -12,7 +12,7 @@ export class Dashboard implements OnInit {
   username: string = '';
   role: string = '';
 
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(private auth: Auth, private router: Router) {}
 
   ngOnInit(): void {
     const user = this.auth.getUser(); // pretpostavljamo da AuthService čuva usera u localStorage

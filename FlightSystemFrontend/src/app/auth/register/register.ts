@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../auth';
+import { Auth } from '../auth';
 import { Router } from '@angular/router';
 
 @Component({
@@ -14,7 +14,7 @@ export class Register implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private auth: AuthService,
+    private auth: Auth,
     private router: Router
   ) {}
 
@@ -24,7 +24,7 @@ export class Register implements OnInit {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       username: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required]],
       phoneNumber: [''],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required]
