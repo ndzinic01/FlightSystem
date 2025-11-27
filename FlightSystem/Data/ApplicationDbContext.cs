@@ -26,6 +26,7 @@ namespace FlightSystem.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            ApplicationDbSeeder.Seed(modelBuilder);
 
             // -----------------------------
             // DESTINATION RELATIONSHIPS

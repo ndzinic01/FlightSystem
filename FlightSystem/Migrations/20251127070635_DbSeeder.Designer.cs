@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FlightSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251125131354_FlightUpdate")]
-    partial class FlightUpdate
+    [Migration("20251127070635_DbSeeder")]
+    partial class DbSeeder
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,6 +43,26 @@ namespace FlightSystem.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AdditionalBaggages");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Price = 20m,
+                            Type = "Extra 10kg Baggage"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Price = 35m,
+                            Type = "Extra 20kg Baggage"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Price = 55m,
+                            Type = "Extra 30kg Baggage"
+                        });
                 });
 
             modelBuilder.Entity("FlightSystem.Models.Aircraft", b =>
@@ -77,6 +97,38 @@ namespace FlightSystem.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Aircrafts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Capacity = 160,
+                            Manufacturer = "Boeing",
+                            Model = "Boeing 737",
+                            RegistrationNumber = "TKA123",
+                            Status = true,
+                            YearManufacturer = 2012
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Capacity = 180,
+                            Manufacturer = "Airbus",
+                            Model = "Airbus A320",
+                            RegistrationNumber = "LHF456",
+                            Status = true,
+                            YearManufacturer = 2016
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Capacity = 220,
+                            Manufacturer = "Airbus",
+                            Model = "Airbus A321",
+                            RegistrationNumber = "CAF789",
+                            Status = true,
+                            YearManufacturer = 2018
+                        });
                 });
 
             modelBuilder.Entity("FlightSystem.Models.Airline", b =>
@@ -97,6 +149,38 @@ namespace FlightSystem.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Airlines");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            LogoURL = "https://www.aeromobile.net/wp-content/uploads/2023/03/TurkishAirlines_logo.jpg",
+                            Name = "Turkish Airlines"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            LogoURL = "https://cdn.freebiesupply.com/logos/large/2x/lufthansa-2-logo-png-transparent.png",
+                            Name = "Lufthansa"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            LogoURL = "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Croatia_Airlines_Logo_2.svg/744px-Croatia_Airlines_Logo_2.svg.png",
+                            Name = "Croatia Airlines"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            LogoURL = "https://images.seeklogo.com/logo-png/46/2/air-france-logo-png_seeklogo-464865.png",
+                            Name = "Air France"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            LogoURL = "https://logos-world.net/wp-content/uploads/2023/06/Pegasus-Airlines-Logo.png",
+                            Name = "Pegasus Airlines"
+                        });
                 });
 
             modelBuilder.Entity("FlightSystem.Models.Airport", b =>
@@ -122,6 +206,92 @@ namespace FlightSystem.Migrations
                     b.HasIndex("CityId");
 
                     b.ToTable("Airports");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CityId = 1,
+                            IsActive = true,
+                            Name = "Sarajevo International Airport (SJJ)"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CityId = 2,
+                            IsActive = true,
+                            Name = "Mostar Airport (OMO)"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CityId = 3,
+                            IsActive = true,
+                            Name = "Franjo Tuđman Airport Zagreb (ZAG)"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CityId = 4,
+                            IsActive = true,
+                            Name = "Split Airport (SPU)"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CityId = 5,
+                            IsActive = true,
+                            Name = "Istanbul Airport (IST)"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CityId = 6,
+                            IsActive = true,
+                            Name = "Antalya Airport (AYT)"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CityId = 7,
+                            IsActive = true,
+                            Name = "Rome Fiumicino Airport (FCO)"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CityId = 8,
+                            IsActive = true,
+                            Name = "Milan Malpensa Airport (MXP)"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CityId = 9,
+                            IsActive = true,
+                            Name = "Madrid Barajas Airport (MAD)"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CityId = 10,
+                            IsActive = true,
+                            Name = "Barcelona El Prat Airport (BCN)"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CityId = 11,
+                            IsActive = true,
+                            Name = "Charles de Gaulle Airport (CDG)"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CityId = 12,
+                            IsActive = true,
+                            Name = "Nice Côte d’Azur Airport (NCE)"
+                        });
                 });
 
             modelBuilder.Entity("FlightSystem.Models.City", b =>
@@ -144,6 +314,80 @@ namespace FlightSystem.Migrations
                     b.HasIndex("CountryId");
 
                     b.ToTable("Cities");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CountryId = 1,
+                            Name = "Sarajevo"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CountryId = 1,
+                            Name = "Mostar"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CountryId = 2,
+                            Name = "Zagreb"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CountryId = 2,
+                            Name = "Split"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CountryId = 3,
+                            Name = "Istanbul"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CountryId = 3,
+                            Name = "Antalya"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CountryId = 4,
+                            Name = "Rome"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CountryId = 4,
+                            Name = "Milan"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CountryId = 5,
+                            Name = "Madrid"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CountryId = 5,
+                            Name = "Barcelona"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CountryId = 6,
+                            Name = "Paris"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CountryId = 6,
+                            Name = "Nice"
+                        });
                 });
 
             modelBuilder.Entity("FlightSystem.Models.Country", b =>
@@ -161,6 +405,38 @@ namespace FlightSystem.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Countries");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Bosnia and Herzegovina"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Croatia"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Turkey"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Italy"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Spain"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "France"
+                        });
                 });
 
             modelBuilder.Entity("FlightSystem.Models.Destination", b =>
@@ -187,6 +463,50 @@ namespace FlightSystem.Migrations
                     b.HasIndex("ToAirportId");
 
                     b.ToTable("Destinations");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            FromAirportId = 1,
+                            IsActive = true,
+                            ToAirportId = 3
+                        },
+                        new
+                        {
+                            Id = 2,
+                            FromAirportId = 1,
+                            IsActive = true,
+                            ToAirportId = 11
+                        },
+                        new
+                        {
+                            Id = 3,
+                            FromAirportId = 3,
+                            IsActive = true,
+                            ToAirportId = 7
+                        },
+                        new
+                        {
+                            Id = 4,
+                            FromAirportId = 5,
+                            IsActive = true,
+                            ToAirportId = 1
+                        },
+                        new
+                        {
+                            Id = 5,
+                            FromAirportId = 7,
+                            IsActive = true,
+                            ToAirportId = 10
+                        },
+                        new
+                        {
+                            Id = 6,
+                            FromAirportId = 10,
+                            IsActive = true,
+                            ToAirportId = 11
+                        });
                 });
 
             modelBuilder.Entity("FlightSystem.Models.Flight", b =>
@@ -234,6 +554,34 @@ namespace FlightSystem.Migrations
                     b.HasIndex("DestinationId");
 
                     b.ToTable("Flights");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AircraftId = 2,
+                            AirlineId = 3,
+                            ArrivalTime = new DateTime(2025, 11, 29, 9, 6, 35, 89, DateTimeKind.Local).AddTicks(709),
+                            AvailableSeats = 100,
+                            Code = "FS-101",
+                            DepartureTime = new DateTime(2025, 11, 29, 8, 6, 35, 89, DateTimeKind.Local).AddTicks(637),
+                            DestinationId = 1,
+                            Price = 120m,
+                            Status = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AircraftId = 1,
+                            AirlineId = 4,
+                            ArrivalTime = new DateTime(2025, 12, 1, 10, 6, 35, 89, DateTimeKind.Local).AddTicks(722),
+                            AvailableSeats = 140,
+                            Code = "FS-202",
+                            DepartureTime = new DateTime(2025, 12, 1, 8, 6, 35, 89, DateTimeKind.Local).AddTicks(720),
+                            DestinationId = 2,
+                            Price = 180m,
+                            Status = 0
+                        });
                 });
 
             modelBuilder.Entity("FlightSystem.Models.Notification", b =>
@@ -308,6 +656,19 @@ namespace FlightSystem.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Reservations");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AdditionalBaggageId = 1,
+                            CreatedAt = new DateTime(2025, 11, 27, 7, 6, 35, 89, DateTimeKind.Utc).AddTicks(946),
+                            FlightId = 1,
+                            SeatNumber = "12A",
+                            Status = 0,
+                            TotalPrice = 140m,
+                            UserId = 1
+                        });
                 });
 
             modelBuilder.Entity("FlightSystem.Models.User", b =>
@@ -359,6 +720,22 @@ namespace FlightSystem.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "admin@mail.com",
+                            FirstName = "Admin",
+                            IsActive = true,
+                            IsDeleted = false,
+                            LastName = "Admin",
+                            PasswordHash = "Hash",
+                            PasswordSalt = "Salt",
+                            PhoneNumber = "000000000",
+                            Role = "Admin",
+                            Username = "admin"
+                        });
                 });
 
             modelBuilder.Entity("FlightSystem.Models.Airport", b =>

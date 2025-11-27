@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace FlightSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class DbSeeder : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -166,6 +168,7 @@ namespace FlightSystem.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DestinationId = table.Column<int>(type: "int", nullable: false),
                     AirlineId = table.Column<int>(type: "int", nullable: false),
                     AircraftId = table.Column<int>(type: "int", nullable: false),
@@ -263,6 +266,121 @@ namespace FlightSystem.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.InsertData(
+                table: "AdditionalBaggages",
+                columns: new[] { "Id", "Price", "Type" },
+                values: new object[,]
+                {
+                    { 1, 20m, "Extra 10kg Baggage" },
+                    { 2, 35m, "Extra 20kg Baggage" },
+                    { 3, 55m, "Extra 30kg Baggage" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Aircrafts",
+                columns: new[] { "Id", "Capacity", "Manufacturer", "Model", "RegistrationNumber", "Status", "YearManufacturer" },
+                values: new object[,]
+                {
+                    { 1, 160, "Boeing", "Boeing 737", "TKA123", true, 2012 },
+                    { 2, 180, "Airbus", "Airbus A320", "LHF456", true, 2016 },
+                    { 3, 220, "Airbus", "Airbus A321", "CAF789", true, 2018 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Airlines",
+                columns: new[] { "Id", "LogoURL", "Name" },
+                values: new object[,]
+                {
+                    { 1, "https://www.aeromobile.net/wp-content/uploads/2023/03/TurkishAirlines_logo.jpg", "Turkish Airlines" },
+                    { 2, "https://cdn.freebiesupply.com/logos/large/2x/lufthansa-2-logo-png-transparent.png", "Lufthansa" },
+                    { 3, "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Croatia_Airlines_Logo_2.svg/744px-Croatia_Airlines_Logo_2.svg.png", "Croatia Airlines" },
+                    { 4, "https://images.seeklogo.com/logo-png/46/2/air-france-logo-png_seeklogo-464865.png", "Air France" },
+                    { 5, "https://logos-world.net/wp-content/uploads/2023/06/Pegasus-Airlines-Logo.png", "Pegasus Airlines" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Countries",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Bosnia and Herzegovina" },
+                    { 2, "Croatia" },
+                    { 3, "Turkey" },
+                    { 4, "Italy" },
+                    { 5, "Spain" },
+                    { 6, "France" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "Email", "FirstName", "IsActive", "IsDeleted", "LastName", "PasswordHash", "PasswordSalt", "PhoneNumber", "Role", "Username" },
+                values: new object[] { 1, "admin@mail.com", "Admin", true, false, "Admin", "Hash", "Salt", "000000000", "Admin", "admin" });
+
+            migrationBuilder.InsertData(
+                table: "Cities",
+                columns: new[] { "Id", "CountryId", "Name" },
+                values: new object[,]
+                {
+                    { 1, 1, "Sarajevo" },
+                    { 2, 1, "Mostar" },
+                    { 3, 2, "Zagreb" },
+                    { 4, 2, "Split" },
+                    { 5, 3, "Istanbul" },
+                    { 6, 3, "Antalya" },
+                    { 7, 4, "Rome" },
+                    { 8, 4, "Milan" },
+                    { 9, 5, "Madrid" },
+                    { 10, 5, "Barcelona" },
+                    { 11, 6, "Paris" },
+                    { 12, 6, "Nice" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Airports",
+                columns: new[] { "Id", "CityId", "IsActive", "Name" },
+                values: new object[,]
+                {
+                    { 1, 1, true, "Sarajevo International Airport (SJJ)" },
+                    { 2, 2, true, "Mostar Airport (OMO)" },
+                    { 3, 3, true, "Franjo Tuđman Airport Zagreb (ZAG)" },
+                    { 4, 4, true, "Split Airport (SPU)" },
+                    { 5, 5, true, "Istanbul Airport (IST)" },
+                    { 6, 6, true, "Antalya Airport (AYT)" },
+                    { 7, 7, true, "Rome Fiumicino Airport (FCO)" },
+                    { 8, 8, true, "Milan Malpensa Airport (MXP)" },
+                    { 9, 9, true, "Madrid Barajas Airport (MAD)" },
+                    { 10, 10, true, "Barcelona El Prat Airport (BCN)" },
+                    { 11, 11, true, "Charles de Gaulle Airport (CDG)" },
+                    { 12, 12, true, "Nice Côte d’Azur Airport (NCE)" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Destinations",
+                columns: new[] { "Id", "FromAirportId", "IsActive", "ToAirportId" },
+                values: new object[,]
+                {
+                    { 1, 1, true, 3 },
+                    { 2, 1, true, 11 },
+                    { 3, 3, true, 7 },
+                    { 4, 5, true, 1 },
+                    { 5, 7, true, 10 },
+                    { 6, 10, true, 11 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Flights",
+                columns: new[] { "Id", "AircraftId", "AirlineId", "ArrivalTime", "AvailableSeats", "Code", "DepartureTime", "DestinationId", "Price", "Status" },
+                values: new object[,]
+                {
+                    { 1, 2, 3, new DateTime(2025, 11, 29, 9, 6, 35, 89, DateTimeKind.Local).AddTicks(709), 100, "FS-101", new DateTime(2025, 11, 29, 8, 6, 35, 89, DateTimeKind.Local).AddTicks(637), 1, 120m, 0 },
+                    { 2, 1, 4, new DateTime(2025, 12, 1, 10, 6, 35, 89, DateTimeKind.Local).AddTicks(722), 140, "FS-202", new DateTime(2025, 12, 1, 8, 6, 35, 89, DateTimeKind.Local).AddTicks(720), 2, 180m, 0 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Reservations",
+                columns: new[] { "Id", "AdditionalBaggageId", "CreatedAt", "FlightId", "SeatNumber", "Status", "TotalPrice", "UserId" },
+                values: new object[] { 1, 1, new DateTime(2025, 11, 27, 7, 6, 35, 89, DateTimeKind.Utc).AddTicks(946), 1, "12A", 0, 140m, 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Airports_CityId",
