@@ -2,6 +2,7 @@
 using FlightSystem.Services.Interfaces;
 using FlightSystem.Services;
 using Microsoft.AspNetCore.Mvc;
+using FlightSystem.DTOs.Login;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -49,5 +50,17 @@ public class UserController : ControllerBase
         if (!result) return NotFound();
         return Ok(new { message = "User deleted successfully" });
     }
+    [HttpPost("login")]
+    public async Task<IActionResult> Login(LoginDTO dto)
+    {
+        // Prosljeđuje se lista dozvoljenih rola (flexible)
+        var result = await _service.LoginAsync(dto, "Admin");
+
+        if (result == null)
+            return Unauthorized(new { message = "Invalid credentials or insufficient role" });
+
+        return Ok(result);
+    }
+
 }
 

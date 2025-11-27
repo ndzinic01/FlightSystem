@@ -1,4 +1,5 @@
-﻿using FlightSystem.DTOs.User;
+﻿using FlightSystem.DTOs.Login;
+using FlightSystem.DTOs.User;
 
 namespace FlightSystem.Services.Interfaces
 {
@@ -9,5 +10,6 @@ namespace FlightSystem.Services.Interfaces
         Task<UserGetDTO> CreateAsync(UserAddDTO dto);
         Task<UserGetDTO?> UpdateAsync(UserUpdateDTO dto);
         Task<bool> DeleteAsync(int id);
+        Task<LoginResponseDTO?> LoginAsync(LoginDTO dto, params string[] allowedRoles);
     }
 }
