@@ -1,0 +1,22 @@
+<h2>✈️ Lista aviona</h2>
+
+<table>
+  <thead>
+  <tr>
+    <th>Model</th>
+    <th>Broj sjedišta</th>
+    <th>Registracija</th>
+    <th>Status</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <tr *ngFor="let a of aircraftList">
+    <td>{{ a.model }}</td>
+    <td>{{ a.seatCount }}</td>
+    <td>{{ a.registrationNumber }}</td>
+    <td>{{ a.status }}</td>
+  </tr>
+  </tbody>
+</table>
+

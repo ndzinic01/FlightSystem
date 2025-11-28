@@ -1,0 +1,51 @@
+.admin-container {
+  display: flex;
+  height: 100vh;
+  font-family: Segoe UI, sans-serif;
+}
+
+.sidebar {
+  width: 240px;
+  background: #1e5fa3;
+  color: #fff;
+  padding: 20px;
+}
+
+.sidebar h3 {
+  margin-bottom: 20px;
+}
+
+.sidebar nav a {
+  display: block;
+  color: #fff;
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.sidebar nav a:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #e6f2ff;
+  padding: 12px;
+  border-bottom: 1px solid #9cc3e8;
+}
+
+main {
+  flex: 1;
+  padding: 20px;
+}
+
