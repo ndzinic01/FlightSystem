@@ -1,22 +1,37 @@
-<h2>✈️ Lista aviona</h2>
+<h2>Aircraft List</h2>
 
-<table>
-  <thead>
-  <tr>
-    <th>Model</th>
-    <th>Broj sjedišta</th>
-    <th>Registracija</th>
-    <th>Status</th>
-  </tr>
-  </thead>
+<div *ngIf="aircrafts$ | async as aircrafts; else loading">
+  <table class="aircraft-table">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Model</th>
+      <th>Registration</th>
+      <th>Year</th>
+      <th>Manufacturer</th>
+      <th>Capacity</th>
+      <th>Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let a of aircrafts">
+      <td>{{ a.id }}</td>
+      <td>{{ a.model }}</td>
+      <td>{{ a.registrationNumber }}</td>
+      <td>{{ a.yearManufacturer }}</td>
+      <td>{{ a.manufacturer }}</td>
+      <td>{{ a.capacity }}</td>
+      <td [ngClass]="a.status ? 'active' : 'inactive'">
+        {{ a.status ? 'Active' : 'Inactive' }}
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
 
-  <tbody>
-  <tr *ngFor="let a of aircraftList">
-    <td>{{ a.model }}</td>
-    <td>{{ a.seatCount }}</td>
-    <td>{{ a.registrationNumber }}</td>
-    <td>{{ a.status }}</td>
-  </tr>
-  </tbody>
-</table>
+<ng-template #loading>
+  <p>Učitavanje...</p>
+</ng-template>
+
+
 

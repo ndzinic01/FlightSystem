@@ -1,7 +1,6 @@
 using FlightSystem.Data;
 using FlightSystem.Services;
 using FlightSystem.Services.Interfaces;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;

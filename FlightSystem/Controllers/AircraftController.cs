@@ -15,13 +15,13 @@ namespace FlightSystem.Controllers
             _service = service;
         }
 
-        [HttpGet]
+        [HttpGet("get-all")]
         public async Task<IActionResult> GetAll()
         {
             return Ok(await _service.GetAllAsync());
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("get-by-id/{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var result = await _service.GetByIdAsync(id);
@@ -31,13 +31,13 @@ namespace FlightSystem.Controllers
             return Ok(result);
         }
 
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<IActionResult> Add(AircraftAddUpdateDTO dto)
         {
             return Ok(await _service.AddAsync(dto));
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("update/{id}")]
         public async Task<IActionResult> Update(int id, AircraftAddUpdateDTO dto)
         {
             var result = await _service.UpdateAsync(id, dto);
@@ -47,7 +47,7 @@ namespace FlightSystem.Controllers
             return Ok(result);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("(delete/{id})")]
         public async Task<IActionResult> Delete(int id)
         {
             bool deleted = await _service.DeleteAsync(id);

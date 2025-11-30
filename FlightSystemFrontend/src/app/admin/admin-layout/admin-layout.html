@@ -4,28 +4,24 @@
     <h3>Admin Panel</h3>
 
     <nav>
-      <a routerLink="/admin/dashboard">📊 Dashboard</a>
-      <a routerLink="/admin/aircraft">✈️ Avioni</a>
-      <a routerLink="/admin/airports">🌍 Aerodromi</a>
-      <a routerLink="/admin/flights">🛫 Letovi</a>
-      <a routerLink="/admin/reservations">🎟️ Rezervacije</a>
-      <a routerLink="/admin/users">👤 Korisnici</a>
-      <a routerLink="/admin/reports">📈 Izvještaji</a>
-      <a routerLink="/admin/notifications">🔔 Notifikacije</a>
-      <a routerLink="/admin/profile">⚙️ Moj profil</a>
+      <a routerLink="/admin/dashboard" routerLinkActive="active">📊 Dashboard</a>
+      <a routerLink="/admin/aircraft" routerLinkActive="active">✈️ Avioni</a>
+      <a routerLink="/admin/airports" routerLinkActive="active">🌍 Aerodromi</a>
+      <a routerLink="/admin/flights" routerLinkActive="active">🛫 Letovi</a>
+      <a routerLink="/admin/reservations" routerLinkActive="active">🎫 Rezervacije</a>
+      <a routerLink="/admin/users" routerLinkActive="active">👤 Korisnici</a>
+      <a routerLink="/admin/notifications" routerLinkActive="active">🔔 Notifikacije</a>
+      <a routerLink="/admin/reports" routerLinkActive="active">📑 Izvještaji</a>
+      <a routerLink="/admin/profile" routerLinkActive="active">⚙️ Profil</a>
+      <a routerLink="/admin/search" routerLinkActive="active">🔎 Pretraga</a>
     </nav>
   </aside>
 
-  <div class="content">
-    <header class="header">
-      <span>👋 Dobrodošli, {{ username }}</span>
-      <button (click)="logout()">Logout</button>
-    </header>
-
-    <main>
-      <router-outlet></router-outlet>
-    </main>
-  </div>
+  <main class="content">
+    <router-outlet></router-outlet>
+  </main>
 
 </div>
+
+
 
