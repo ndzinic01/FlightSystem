@@ -1,37 +1,108 @@
-<h2>Aircraft List</h2>
+<div class="aircraft-container">
+  <div class="header">
+    <h2>✈️ Upravljanje Avionima</h2>
+    <button class="btn btn-primary" (click)="openAddModal()">+ Dodaj Novi Avion</button>
+  </div>
 
-<div *ngIf="aircrafts$ | async as aircrafts; else loading">
-  <table class="aircraft-table">
+  <div *ngIf="loading" class="loading">
+    <div class="spinner"></div>
+    <p>Učitavanje podataka...</p>
+  </div>
+
+  <div *ngIf="error" class="error-state">
+    <p>⚠️ {{ error }}</p>
+    <button class="btn btn-primary" (click)="loadAircrafts()">🔄 Pokušaj ponovo</button>
+  </div>
+
+  <div *ngIf="!loading && !error && aircrafts.length === 0" class="empty-state">
+    <p>📭 Nema dostupnih aviona u bazi.</p>
+    <button class="btn btn-primary" (click)="openAddModal()">+ Dodaj prvi avion</button>
+  </div>
+
+  <table *ngIf="!loading && !error && aircrafts.length > 0" class="aircraft-table">
     <thead>
     <tr>
       <th>ID</th>
       <th>Model</th>
-      <th>Registration</th>
-      <th>Year</th>
-      <th>Manufacturer</th>
-      <th>Capacity</th>
+      <th>Registracijski Broj</th>
+      <th>Proizvođač</th>
+      <th>Godina Proizvodnje</th>
+      <th>Kapacitet</th>
       <th>Status</th>
+      <th>Akcije</th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let a of aircrafts">
-      <td>{{ a.id }}</td>
-      <td>{{ a.model }}</td>
-      <td>{{ a.registrationNumber }}</td>
-      <td>{{ a.yearManufacturer }}</td>
-      <td>{{ a.manufacturer }}</td>
-      <td>{{ a.capacity }}</td>
-      <td [ngClass]="a.status ? 'active' : 'inactive'">
-        {{ a.status ? 'Active' : 'Inactive' }}
+    <tr *ngFor="let aircraft of aircrafts">
+      <td>{{ aircraft.id }}</td>
+      <td>{{ aircraft.model }}</td>
+      <td>{{ aircraft.registrationNumber }}</td>
+      <td>{{ aircraft.manufacturer }}</td>
+      <td>{{ aircraft.yearManufacturer }}</td>
+      <td>{{ aircraft.capacity }}</td>
+      <td>
+          <span [class]="aircraft.status ? 'status-active' : 'status-inactive'">
+            {{ aircraft.status ? 'Aktivan' : 'Neaktivan' }}
+          </span>
+      </td>
+      <td class="actions">
+        <button class="btn btn-edit" (click)="openEditModal(aircraft)">✏️ Edit</button>
+        <button class="btn btn-delete" (click)="deleteAircraft(aircraft.id)">🗑️ Delete</button>
       </td>
     </tr>
     </tbody>
   </table>
+
+  <!-- Modal -->
+  <div *ngIf="showModal" class="modal-overlay" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>{{ isEditMode ? 'Ažuriraj Avion' : 'Dodaj Novi Avion' }}</h3>
+        <button class="close-btn" (click)="closeModal()">✕</button>
+      </div>
+
+      <form (ngSubmit)="onSubmit()" class="aircraft-form">
+        <div class="form-group">
+          <label>Model:</label>
+          <input type="text" [(ngModel)]="formData.model" name="model" required class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label>Registracijski Broj:</label>
+          <input type="text" [(ngModel)]="formData.registrationNumber" name="registrationNumber" required class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label>Proizvođač:</label>
+          <input type="text" [(ngModel)]="formData.manufacturer" name="manufacturer" required class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label>Godina Proizvodnje:</label>
+          <input type="number" [(ngModel)]="formData.yearManufacturer" name="yearManufacturer" required class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label>Kapacitet:</label>
+          <input type="number" [(ngModel)]="formData.capacity" name="capacity" required class="form-control">
+        </div>
+
+        <div class="form-group checkbox-group">
+          <label>
+            <input type="checkbox" [(ngModel)]="formData.status" name="status">
+            Aktivan Status
+          </label>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-cancel" (click)="closeModal()">Odustani</button>
+          <button type="submit" class="btn btn-primary">{{ isEditMode ? 'Ažuriraj' : 'Dodaj' }}</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
 
-<ng-template #loading>
-  <p>Učitavanje...</p>
-</ng-template>
 
 
 

@@ -47,7 +47,7 @@ namespace FlightSystem.Controllers
             return Ok(result);
         }
 
-        [HttpDelete("(delete/{id})")]
+        [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             bool deleted = await _service.DeleteAsync(id);

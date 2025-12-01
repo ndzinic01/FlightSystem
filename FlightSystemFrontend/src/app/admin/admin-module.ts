@@ -13,6 +13,8 @@ import { Notifications } from './notifications/notifications';
 import { Reports } from './reports/reports';
 import { Search } from './search/search';
 import { Profile } from './profile/profile';
+import {FormsModule} from "@angular/forms";
+import {HttpClientModule} from '@angular/common/http';
 
 
 @NgModule({
@@ -29,9 +31,11 @@ import { Profile } from './profile/profile';
     Search,
     Profile
   ],
-  imports: [
-    CommonModule,
-    AdminRoutingModule
-  ]
+    imports: [
+        CommonModule,
+        AdminRoutingModule,
+        HttpClientModule,
+        FormsModule
+    ]
 })
 export class AdminModule { }
