@@ -43,7 +43,7 @@
 }
 
 .btn-edit {
-  background: #f39c12;
+  background: darkgray;
   color: white;
   margin-right: 5px;
   padding: 6px 12px;
@@ -51,18 +51,18 @@
 }
 
 .btn-edit:hover {
-  background: #e67e22;
+  background: lightgray;
 }
 
 .btn-delete {
-  background: #e74c3c;
+  background: darkgray;
   color: white;
   padding: 6px 12px;
   font-size: 13px;
 }
 
 .btn-delete:hover {
-  background: #c0392b;
+  background: lightgrey;
 }
 
 .btn-cancel {
@@ -132,8 +132,8 @@
 
 .status-active {
   padding: 4px 12px;
-  background: #2ecc71;
-  color: white;
+  background:white;
+  color: darkgreen;
   border-radius: 12px;
   font-size: 12px;
   font-weight: 500;
@@ -141,8 +141,8 @@
 
 .status-inactive {
   padding: 4px 12px;
-  background: #e74c3c;
-  color: white;
+  background: white;
+  color: red;
   border-radius: 12px;
   font-size: 12px;
   font-weight: 500;
@@ -282,6 +282,7 @@
   .actions {
     flex-direction: column;
   }
+  
 }
 
 

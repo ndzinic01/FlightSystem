@@ -13,7 +13,7 @@ import { Notifications } from './notifications/notifications';
 import { Reports } from './reports/reports';
 import { Search } from './search/search';
 import { Profile } from './profile/profile';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from '@angular/common/http';
 
 
@@ -35,7 +35,8 @@ import {HttpClientModule} from '@angular/common/http';
         CommonModule,
         AdminRoutingModule,
         HttpClientModule,
-        FormsModule
+        FormsModule,
+        ReactiveFormsModule
     ]
 })
 export class AdminModule { }

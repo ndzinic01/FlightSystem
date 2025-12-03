@@ -1,1 +1,52 @@
-<p>airports works!</p>
+<div class="airport-container">
+
+  <div class="form-card">
+    <h3>{{ selectedId ? 'Uredi aerodrom' : 'Dodaj aerodrom' }}</h3>
+
+    <form [formGroup]="form" (ngSubmit)="save()">
+      <label>Naziv</label>
+      <input formControlName="name" type="text" />
+
+      <label>Grad</label>
+      <select formControlName="cityId">
+        <option value="" disabled selected>Odaberi grad</option>
+        <option *ngFor="let c of cities" [value]="c.id">{{ c.name }}</option>
+      </select>
+
+      <label>Status</label>
+      <input type="checkbox" formControlName="isActive" />
+
+      <button type="submit">{{ selectedId ? 'Spasi' : 'Dodaj' }}</button>
+      <button type="button" (click)="reset()" *ngIf="selectedId">Odustani</button>
+    </form>
+  </div>
+
+  <div class="table-card">
+    <h3>Lista Aerodroma</h3>
+    <table>
+      <thead>
+      <tr>
+        <th>Naziv</th>
+        <th>Grad</th>
+        <th>Status</th>
+        <th>Akcije</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr *ngFor="let a of airports">
+        <td>{{ a.name }}</td>
+        <td>{{ a.cityName }}</td>
+        <td>{{ a.isActive ? 'Aktivan' : 'Neaktivan' }}</td>
+        <td>
+          <button (click)="edit(a)">✏️</button>
+          <button (click)="delete(a.id)">🗑️</button>
+        </td>
+      </tr>
+      </tbody>
+
+    </table>
+  </div>
+
+</div>
+

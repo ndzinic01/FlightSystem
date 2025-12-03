@@ -15,6 +15,7 @@ export class Aircraft {
   selectedAircraftId: number | null = null;
   error: string = '';
 
+
   formData: AircraftAddUpdateDTO = {
     model: '',
     registrationNumber: '',

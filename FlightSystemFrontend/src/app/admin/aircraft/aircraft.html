@@ -1,22 +1,22 @@
 <div class="aircraft-container">
   <div class="header">
-    <h2>✈️ Upravljanje Avionima</h2>
-    <button class="btn btn-primary" (click)="openAddModal()">+ Dodaj Novi Avion</button>
+    <h2>✈️ Airplane Management</h2>
+    <button class="btn btn-primary" (click)="openAddModal()">+ Add Airplane</button>
   </div>
 
   <div *ngIf="loading" class="loading">
     <div class="spinner"></div>
-    <p>Učitavanje podataka...</p>
+    <p>Loading...</p>
   </div>
 
   <div *ngIf="error" class="error-state">
-    <p>⚠️ {{ error }}</p>
-    <button class="btn btn-primary" (click)="loadAircrafts()">🔄 Pokušaj ponovo</button>
+    <p> {{ error }}</p>
+    <button class="btn btn-primary" (click)="loadAircrafts()"> Try again</button>
   </div>
 
   <div *ngIf="!loading && !error && aircrafts.length === 0" class="empty-state">
-    <p>📭 Nema dostupnih aviona u bazi.</p>
-    <button class="btn btn-primary" (click)="openAddModal()">+ Dodaj prvi avion</button>
+    <p> Nema dostupnih aviona u bazi.</p>
+    <button class="btn btn-primary" (click)="openAddModal()">+ Add first airplane</button>
   </div>
 
   <table *ngIf="!loading && !error && aircrafts.length > 0" class="aircraft-table">
@@ -24,12 +24,12 @@
     <tr>
       <th>ID</th>
       <th>Model</th>
-      <th>Registracijski Broj</th>
-      <th>Proizvođač</th>
-      <th>Godina Proizvodnje</th>
-      <th>Kapacitet</th>
+      <th>Registration Number</th>
+      <th>Manufacturer</th>
+      <th>Year Manufactured</th>
+      <th>Passenger Capacity</th>
       <th>Status</th>
-      <th>Akcije</th>
+      <th>Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -42,7 +42,7 @@
       <td>{{ aircraft.capacity }}</td>
       <td>
           <span [class]="aircraft.status ? 'status-active' : 'status-inactive'">
-            {{ aircraft.status ? 'Aktivan' : 'Neaktivan' }}
+            {{ aircraft.status ? 'Active' : 'Inactive' }}
           </span>
       </td>
       <td class="actions">
@@ -57,7 +57,7 @@
   <div *ngIf="showModal" class="modal-overlay" (click)="closeModal()">
     <div class="modal-content" (click)="$event.stopPropagation()">
       <div class="modal-header">
-        <h3>{{ isEditMode ? 'Ažuriraj Avion' : 'Dodaj Novi Avion' }}</h3>
+        <h3>{{ isEditMode ? 'Update airplane' : 'Add new airplane' }}</h3>
         <button class="close-btn" (click)="closeModal()">✕</button>
       </div>
 
@@ -68,35 +68,35 @@
         </div>
 
         <div class="form-group">
-          <label>Registracijski Broj:</label>
+          <label>Registration Number:</label>
           <input type="text" [(ngModel)]="formData.registrationNumber" name="registrationNumber" required class="form-control">
         </div>
 
         <div class="form-group">
-          <label>Proizvođač:</label>
+          <label>Manufacturer:</label>
           <input type="text" [(ngModel)]="formData.manufacturer" name="manufacturer" required class="form-control">
         </div>
 
         <div class="form-group">
-          <label>Godina Proizvodnje:</label>
+          <label>Year Manufactured:</label>
           <input type="number" [(ngModel)]="formData.yearManufacturer" name="yearManufacturer" required class="form-control">
         </div>
 
         <div class="form-group">
-          <label>Kapacitet:</label>
+          <label>Passenger Capacity:</label>
           <input type="number" [(ngModel)]="formData.capacity" name="capacity" required class="form-control">
         </div>
 
         <div class="form-group checkbox-group">
           <label>
             <input type="checkbox" [(ngModel)]="formData.status" name="status">
-            Aktivan Status
+            Active Status
           </label>
         </div>
 
         <div class="modal-actions">
-          <button type="button" class="btn btn-cancel" (click)="closeModal()">Odustani</button>
-          <button type="submit" class="btn btn-primary">{{ isEditMode ? 'Ažuriraj' : 'Dodaj' }}</button>
+          <button type="button" class="btn btn-cancel" (click)="closeModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">{{ isEditMode ? 'Update' : 'Add' }}</button>
         </div>
       </form>
     </div>

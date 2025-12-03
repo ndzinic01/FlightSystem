@@ -1,0 +1,31 @@
+.airport-container {
+  display: flex;
+  gap: 20px;
+}
+
+.form-card, .table-card {
+  background: #ffffff;
+  padding: 15px;
+  border-radius: 12px;
+  width: 50%;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+button {
+  cursor: pointer;
+}
