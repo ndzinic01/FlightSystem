@@ -7,5 +7,8 @@
         public int TodayReservations { get; set; }
 
         public Dictionary<string, int> FlightStatuses { get; set; }
+        // Novi property za graf rezervacija
+        public Dictionary<int, int> MonthlyReservations { get; set; } // key = dan u mjesecu, value = broj rezervacija
+
     }
 }

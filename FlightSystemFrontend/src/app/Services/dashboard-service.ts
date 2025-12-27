@@ -2,12 +2,16 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+
 export interface DashboardStats{
   totalFlights: number;
   activeUsers: number;
   todayReservations: number;
   flightStatuses: {
     [key: string]: number;
+  };
+  monthlyReservations: {
+    [key: number]: number; // dan u mjesecu -> broj rezervacija
   };
 }
 
