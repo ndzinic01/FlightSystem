@@ -95,6 +95,8 @@ builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IReservationService, ReservationService>();
 builder.Services.AddScoped<IAdditionalBaggageService, AdditionalBaggageService>();
+builder.Services.AddScoped<IDashboardService, DashboardService>();
+
 
 var app = builder.Build();
 

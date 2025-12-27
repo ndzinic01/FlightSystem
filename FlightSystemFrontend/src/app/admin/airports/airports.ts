@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AirportAddUpdate, Airport, AirportService} from '../../Services/airport.service';
 
@@ -8,28 +8,42 @@ import {AirportAddUpdate, Airport, AirportService} from '../../Services/airport.
   templateUrl: './airports.html',
   styleUrl: './airports.css',
 })
-export class Airports implements OnInit{
+export class Airports implements OnInit {
 
   airports: Airport[] = [];
   form!: FormGroup;
   selectedId: number | null = null;
-
+  isLoading = false;
   cities = [
     { id: 1, name: 'Sarajevo' },
     { id: 2, name: 'Zagreb' },
     { id: 3, name: 'Istanbul' },
-  ]; // TODO: zamijeniti sa GET City kada završimo City CRUD
+  ];
 
-  constructor(private service: AirportService, private fb: FormBuilder) {}
+  constructor(
+    private service: AirportService,
+    private fb: FormBuilder,
+    private cd: ChangeDetectorRef // 👈 DODANO
+  ) {}
 
   ngOnInit(): void {
-    this.loadAirports();
+    console.log("AirportsComponent INIT");
     this.initForm();
+    this.loadAirports();
   }
 
   loadAirports() {
-    this.service.getAll().subscribe(res => {
-      this.airports = res;
+    this.isLoading = true;
+
+    this.service.getAll().subscribe({
+      next: res => {
+        this.airports = res;
+        this.isLoading = false;
+        this.cd.detectChanges();
+      },
+      error: () => {
+        this.isLoading = false;
+      }
     });
   }
 
@@ -51,30 +65,26 @@ export class Airports implements OnInit{
   }
 
   delete(id: number) {
-    if (!confirm('Delete airport?')) return;
-    this.service.delete(id).subscribe(() => {
-      this.loadAirports();
-    });
+    if (!confirm('Obrisati aerodrom?')) return;
+    this.service.delete(id).subscribe(() => this.loadAirports());
   }
 
   save() {
     const dto: AirportAddUpdate = this.form.value;
 
-    if (this.selectedId) {
-      this.service.update(this.selectedId, dto).subscribe(() => {
-        this.reset();
-        this.loadAirports();
-      });
-    } else {
-      this.service.create(dto).subscribe(() => {
-        this.reset();
-        this.loadAirports();
-      });
-    }
+    const request = this.selectedId
+      ? this.service.update(this.selectedId, dto)
+      : this.service.create(dto);
+
+    request.subscribe(() => {
+      this.reset();
+      this.loadAirports();
+    });
   }
 
   reset() {
     this.selectedId = null;
     this.form.reset({ isActive: true });
   }
+
 }

@@ -1,3 +1,116 @@
-h1 {
-  color: #1e5fa3;
+.dashboard-wrapper {
+  padding: 24px;
+  background: #f6fbff;
+  min-height: 100vh;
+}
+
+/* HEADER */
+.dashboard-header {
+  background: white;
+  padding: 16px 24px;
+  border-radius: 6px;
+  margin-bottom: 24px;
+  border: 1px solid #ddd;
+}
+
+.dashboard-header h1 {
+  margin: 0;
+  color: #1e5aa8;
+}
+
+/* MAIN GRID */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 24px;
+}
+
+/* LEFT COLUMN */
+.stats-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.stat-card {
+  background: #f1f4f7;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 16px;
+  text-align: center;
+}
+
+.stat-card span {
+  color: #555;
+  font-size: 14px;
+}
+
+.stat-card h2 {
+  margin: 8px 0 0;
+  font-size: 28px;
+}
+
+/* CHART */
+.chart-card {
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 16px;
+}
+
+.chart-card h3 {
+  margin-top: 0;
+}
+
+.chart-placeholder {
+  height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+  border-top: 1px dashed #ccc;
+  margin-top: 16px;
+}
+
+/* STATUS ROW */
+.status-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.status-card {
+  background: #f1f4f7;
+  border-radius: 6px;
+  padding: 16px;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+.status-card span {
+  font-size: 14px;
+  color: #555;
+}
+
+.status-card h2 {
+  margin-top: 8px;
+  font-size: 28px;
+}
+
+/* COLORS */
+.cancelled h2 {
+  color: red;
+}
+
+.delayed h2 {
+  color: orange;
+}
+
+.boarding h2 {
+  color: #1e5aa8;
+}
+
+.scheduled h2 {
+  color: #1e8e3e;
 }

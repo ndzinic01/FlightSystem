@@ -15,6 +15,7 @@ import { Search } from './search/search';
 import { Profile } from './profile/profile';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from '@angular/common/http';
+import { Countries } from './countries/countries';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import {HttpClientModule} from '@angular/common/http';
     Notifications,
     Reports,
     Search,
-    Profile
+    Profile,
+    Countries
   ],
     imports: [
         CommonModule,

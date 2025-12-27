@@ -1,0 +1,42 @@
+<div class="container">
+  <h2>🌍 Countries</h2>
+
+  <form [formGroup]="form" (ngSubmit)="save()" class="form-card">
+
+    <input class="form-input" placeholder="Country name" formControlName="name" />
+
+
+    <button type="submit" class="btn-save">
+      {{ selectedId ? 'Update' : 'Add' }}
+    </button>
+
+    <button type="button" class="btn-cancel" (click)="reset()" *ngIf="selectedId">
+      Cancel
+    </button>
+
+  </form>
+
+  <div class="table-container">
+    <table>
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr *ngFor="let c of countries">
+        <td>{{ c.id }}</td>
+        <td>{{ c.name }}</td>
+        <td>
+          <button (click)="edit(c)" class="btn-edit">✏️</button>
+          <button (click)="delete(c.id)" class="btn-delete">🗑️</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+

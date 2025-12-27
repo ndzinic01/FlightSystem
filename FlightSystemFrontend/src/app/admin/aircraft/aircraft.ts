@@ -7,6 +7,7 @@ import { AircraftService, AircraftGetDTO, AircraftAddUpdateDTO } from '../../Ser
   templateUrl: './aircraft.html',
   styleUrls: ['./aircraft.css']
 })
+
 export class Aircraft {
   aircrafts: AircraftGetDTO[] = [];
   loading: boolean = false;

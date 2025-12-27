@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import {NavigationEnd, Router, RouterModule, Routes} from '@angular/router';
 import { Login } from './auth/login/login';
 import { Register } from './auth/register/register';
 import { AuthGuard } from './auth/auth.guard';
@@ -20,8 +20,23 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes, {
+      onSameUrlNavigation: 'reload',   // 🔥 ključno !!
+      scrollPositionRestoration: 'enabled' // nije obavezno ali user-friendly
+    })
+  ],
+
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule {
+  constructor(router: Router) {
+    router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        router.navigated = false;
+      }
+    });
+  }
+}
+
 

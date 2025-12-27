@@ -11,6 +11,7 @@ import { Notifications } from './notifications/notifications';
 import { Reports } from './reports/reports';
 import { Profile } from './profile/profile';
 import { Search } from './search/search';
+import {Countries} from './countries/countries';
 
 const routes: Routes = [
   {
@@ -27,6 +28,7 @@ const routes: Routes = [
       { path: 'reports', component: Reports },
       { path: 'profile', component: Profile },
       { path: 'search', component: Search },
+      {path: 'countries', component: Countries},
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ]
   }

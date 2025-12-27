@@ -1,3 +1,68 @@
-<h1>📊 Dashboard</h1>
-<p>Odaberite funkciju iz menija sa lijeve strane.</p>
+<div class="dashboard-wrapper">
 
+  <!-- HEADER -->
+  <div class="dashboard-header">
+    <h1>📊 Dashboard</h1>
+  </div>
+
+  <!-- CONTENT GRID -->
+  <div class="dashboard-grid">
+
+    <!-- LEFT STATS -->
+    <div class="stats-column">
+
+      <div class="stat-card">
+        <span>Ukupno letova</span>
+        <h2>{{ stats?.totalFlights }}</h2>
+      </div>
+
+      <div class="stat-card">
+        <span>Aktivni korisnici</span>
+        <h2>{{ stats?.activeUsers }}</h2>
+      </div>
+
+      <div class="stat-card">
+        <span>Današnje rezervacije</span>
+        <h2>{{ stats?.todayReservations }}</h2>
+      </div>
+
+    </div>
+
+    <!-- CHART PLACEHOLDER -->
+    <div class="chart-card">
+      <h3>Pregled rezervacija</h3>
+
+      <!-- Za sada samo placeholder (kasnije chart.js) -->
+      <div class="chart-placeholder">
+        📈 Graf dolazi ovdje
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FLIGHT STATUS ROW -->
+  <div class="status-row">
+
+    <div class="status-card cancelled">
+      <span>Otkazanih letova trenutno</span>
+      <h2>{{ stats?.flightStatuses?.['Cancelled'] || 0 }}</h2>
+    </div>
+
+    <div class="status-card delayed">
+      <span>Odgođenih letova trenutno</span>
+      <h2>{{ stats?.flightStatuses?.['Delayed'] || 0 }}</h2>
+    </div>
+
+    <div class="status-card boarding">
+      <span>Letova u toku</span>
+      <h2>{{ stats?.flightStatuses?.['Boarding'] || 0 }}</h2>
+    </div>
+
+    <div class="status-card scheduled">
+      <span>Letova zakazanih danas</span>
+      <h2>{{ stats?.flightStatuses?.['Scheduled'] || 0 }}</h2>
+    </div>
+
+  </div>
+
+</div>
