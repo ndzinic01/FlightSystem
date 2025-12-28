@@ -1,31 +1,102 @@
+.dest-header {
+  margin-bottom: 24px;
+}
+/* Header Uredi */
+.dest-table th:nth-child(4),
+.dest-table td:nth-child(4) {
+  text-align: center;
+}
+
+/* Ikonice ostaju u sredini */
+.edit-icons {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
+
+.title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.search-row {
+  margin-top: 12px;
+}
+
+/* search full-width ali lijep */
+.search-input {
+  width: 320px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+}
+
+
+.search-input:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+/* ADD BUTTON */
+.btn-add {
+  background-color: #2563eb;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.btn-add:hover {
+  background-color: #1d4ed8;
+}
+
+/* TABLE */
 .dest-table {
   width: 100%;
   border-collapse: collapse;
+  table-layout: fixed; /* 🔑 VAŽNO za poravnanje */
 }
 
 .dest-table th,
 .dest-table td {
-  padding: 10px;
+  padding: 12px 10px;
   border-bottom: 1px solid #e5e7eb;
+  vertical-align: middle;
+  text-align: left;
 }
 
-.airport-route {
+.dest-table th {
   font-weight: 600;
   color: #374151;
 }
 
-.edit-icons {
-  display: flex;
-  gap: 10px;
+/* AERODROMI */
+.airport-route {
+  text-align: center;
+  font-weight: 600;
+  color: #111827;
 }
+
+/* UREDI */
+
 
 .edit-icons .icon {
   cursor: pointer;
-  color: #111827; /* crno-bijelo */
+  font-size: 23px;
+  color: #111827;
 }
 
 .edit-icons .icon:hover {
   opacity: 0.6;
+}
+
+/* LETOVI */
+.letovi-col {
+  text-align: center;
 }
 
 .btn-flights {
@@ -35,17 +106,11 @@
   padding: 6px 14px;
   border-radius: 6px;
   cursor: pointer;
+  font-size: 14px;
 }
 
 .btn-flights:hover {
   background-color: #374151;
 }
 
-.btn-add {
-  background: #2563eb;
-  color: white;
-  padding: 8px 14px;
-  border-radius: 6px;
-  border: none;
-}
 

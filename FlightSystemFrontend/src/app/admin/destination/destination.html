@@ -1,7 +1,20 @@
-<div class="page-header">
-  <h2>Destinacije</h2>
-  <button class="btn-add">+ Dodaj destinaciju</button>
+<div class="dest-header">
+  <div class="title-row">
+    <h2>Destinacije</h2>
+    <button class="btn-add">+ Dodaj destinaciju</button>
+  </div>
+
+  <div class="search-row">
+    <input
+      type="text"
+      placeholder="Pretraži destinacije..."
+      [(ngModel)]="searchTerm"
+      (input)="applyFilter()"
+      class="search-input"
+    />
+  </div>
 </div>
+
 
 <table class="dest-table">
   <thead>
@@ -15,7 +28,7 @@
   </thead>
 
   <tbody>
-  <tr *ngFor="let d of destinations">
+  <tr *ngFor="let d of filteredDestinations">
     <td>{{ d.fromCity }}</td>
     <td>{{ d.toCity }}</td>
 
@@ -24,15 +37,16 @@
     </td>
 
     <td class="edit-icons">
-      <i class="icon edit">✏️</i>
-      <i class="icon delete">🗑️</i>
+      <span class="icon edit">✏️</span>
+      <span class="icon delete">🗑️</span>
     </td>
 
-    <td>
+    <td class="letovi-col">
       <button class="btn-flights">Letovi</button>
     </td>
   </tr>
   </tbody>
 </table>
+
 
 

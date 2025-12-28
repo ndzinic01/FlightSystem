@@ -11,6 +11,9 @@ export class Destination implements OnInit {
   destinations: DestinationDTO[] = [];
   loading = false;
 
+  filteredDestinations: DestinationDTO[] = [];
+  searchTerm: string = '';
+
   constructor(private destinationService: DestinationService,
               private cd: ChangeDetectorRef) {}
 
@@ -24,12 +27,29 @@ export class Destination implements OnInit {
       next: (data) => {
         this.destinations = data;
         this.loading = false;
+        this.filteredDestinations = data;
         this.cd.detectChanges(); // 👈 ISTO KAO AIRPORTS
       },
       error: () => {
         this.loading = false;
       }
     });
+  }
+  applyFilter() {
+    const term = this.searchTerm.trim().toLowerCase();
+
+    if (!term) {
+      // 🔑 ako je search prazan → vrati sve iz baze
+      this.filteredDestinations = this.destinations;
+      return;
+    }
+
+    this.filteredDestinations = this.destinations.filter(d =>
+      d.fromCity.toLowerCase().includes(term) ||
+      d.toCity.toLowerCase().includes(term) ||
+      d.fromAirportCode.toLowerCase().includes(term) ||
+      d.toAirportCode.toLowerCase().includes(term)
+    );
   }
 
   delete(id: number) {
