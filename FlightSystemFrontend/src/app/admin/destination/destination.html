@@ -1,0 +1,38 @@
+<div class="page-header">
+  <h2>Destinacije</h2>
+  <button class="btn-add">+ Dodaj destinaciju</button>
+</div>
+
+<table class="dest-table">
+  <thead>
+  <tr>
+    <th>Polazak</th>
+    <th>Dolazak</th>
+    <th>Aerodromi</th>
+    <th>Uredi</th>
+    <th>Letovi</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <tr *ngFor="let d of destinations">
+    <td>{{ d.fromCity }}</td>
+    <td>{{ d.toCity }}</td>
+
+    <td class="airport-route">
+      {{ d.fromAirportCode }} → {{ d.toAirportCode }}
+    </td>
+
+    <td class="edit-icons">
+      <i class="icon edit">✏️</i>
+      <i class="icon delete">🗑️</i>
+    </td>
+
+    <td>
+      <button class="btn-flights">Letovi</button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+

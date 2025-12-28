@@ -64,6 +64,7 @@
 
 .chart-placeholder {
   height: 260px;
+  padding: 12px;
   display: flex;
   align-items: center;
   justify-content: center;

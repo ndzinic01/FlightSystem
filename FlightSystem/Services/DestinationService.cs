@@ -14,46 +14,54 @@ namespace FlightSystem.Services
             _db = db;
         }
 
+        // ===================== GET ALL =====================
         public async Task<List<DestinationGetDTO>> GetAllAsync()
         {
             return await _db.Destinations
                 .Include(x => x.FromAirport)
+                    .ThenInclude(a => a.City)
                 .Include(x => x.ToAirport)
+                    .ThenInclude(a => a.City)
                 .Select(x => new DestinationGetDTO
                 {
                     Id = x.Id,
-                    FromAirportId = x.FromAirportId,
-                    FromAirportName = x.FromAirport.Name,
-                    ToAirportId = x.ToAirportId,
-                    ToAirportName = x.ToAirport.Name,
+                    FromCity = x.FromAirport.City.Name,
+                    ToCity = x.ToAirport.City.Name,
+                    FromAirportCode = x.FromAirport.Code,
+                    ToAirportCode = x.ToAirport.Code,
                     IsActive = x.IsActive
                 })
                 .ToListAsync();
         }
 
+        // ===================== GET BY ID =====================
         public async Task<DestinationGetDTO?> GetByIdAsync(int id)
         {
             var d = await _db.Destinations
                 .Include(x => x.FromAirport)
+                    .ThenInclude(a => a.City)
                 .Include(x => x.ToAirport)
+                    .ThenInclude(a => a.City)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
-            if (d == null) return null;
+            if (d == null)
+                return null;
 
             return new DestinationGetDTO
             {
                 Id = d.Id,
-                FromAirportId = d.FromAirportId,
-                FromAirportName = d.FromAirport.Name,
-                ToAirportId = d.ToAirportId,
-                ToAirportName = d.ToAirport.Name,
+                FromCity = d.FromAirport.City.Name,
+                ToCity = d.ToAirport.City.Name,
+                FromAirportCode = d.FromAirport.Code,
+                ToAirportCode = d.ToAirport.Code,
                 IsActive = d.IsActive
             };
         }
 
+        // ===================== CREATE =====================
         public async Task<DestinationGetDTO> CreateAsync(DestinationAddDTO dto)
         {
-            var dest = new FlightSystem.Models.Destination
+            var dest = new Destination
             {
                 FromAirportId = dto.FromAirportId,
                 ToAirportId = dto.ToAirportId,
@@ -63,24 +71,30 @@ namespace FlightSystem.Services
             _db.Destinations.Add(dest);
             await _db.SaveChangesAsync();
 
-            var fromAirport = await _db.Airports.FindAsync(dto.FromAirportId);
-            var toAirport = await _db.Airports.FindAsync(dto.ToAirportId);
+            var fullDest = await _db.Destinations
+                .Include(x => x.FromAirport)
+                    .ThenInclude(a => a.City)
+                .Include(x => x.ToAirport)
+                    .ThenInclude(a => a.City)
+                .FirstAsync(x => x.Id == dest.Id);
 
             return new DestinationGetDTO
             {
-                Id = dest.Id,
-                FromAirportId = dto.FromAirportId,
-                FromAirportName = fromAirport?.Name ?? "",
-                ToAirportId = dto.ToAirportId,
-                ToAirportName = toAirport?.Name ?? "",
-                IsActive = true
+                Id = fullDest.Id,
+                FromCity = fullDest.FromAirport.City.Name,
+                ToCity = fullDest.ToAirport.City.Name,
+                FromAirportCode = fullDest.FromAirport.Code,
+                ToAirportCode = fullDest.ToAirport.Code,
+                IsActive = fullDest.IsActive
             };
         }
 
+        // ===================== UPDATE =====================
         public async Task<DestinationGetDTO?> UpdateAsync(DestinationUpdateDTO dto)
         {
             var dest = await _db.Destinations.FindAsync(dto.Id);
-            if (dest == null) return null;
+            if (dest == null)
+                return null;
 
             dest.FromAirportId = dto.FromAirportId;
             dest.ToAirportId = dto.ToAirportId;
@@ -88,30 +102,36 @@ namespace FlightSystem.Services
 
             await _db.SaveChangesAsync();
 
-            var fromAirport = await _db.Airports.FindAsync(dto.FromAirportId);
-            var toAirport = await _db.Airports.FindAsync(dto.ToAirportId);
+            var updated = await _db.Destinations
+                .Include(x => x.FromAirport)
+                    .ThenInclude(a => a.City)
+                .Include(x => x.ToAirport)
+                    .ThenInclude(a => a.City)
+                .FirstAsync(x => x.Id == dest.Id);
 
             return new DestinationGetDTO
             {
-                Id = dest.Id,
-                FromAirportId = dest.FromAirportId,
-                FromAirportName = fromAirport?.Name ?? "",
-                ToAirportId = dest.ToAirportId,
-                ToAirportName = toAirport?.Name ?? "",
-                IsActive = dest.IsActive
+                Id = updated.Id,
+                FromCity = updated.FromAirport.City.Name,
+                ToCity = updated.ToAirport.City.Name,
+                FromAirportCode = updated.FromAirport.Code,
+                ToAirportCode = updated.ToAirport.Code,
+                IsActive = updated.IsActive
             };
         }
 
+        // ===================== DELETE =====================
         public async Task<bool> DeleteAsync(int id)
         {
             var dest = await _db.Destinations.FindAsync(id);
-            if (dest == null) return false;
+            if (dest == null)
+                return false;
 
             _db.Destinations.Remove(dest);
             await _db.SaveChangesAsync();
-
             return true;
         }
     }
 }
+
 

@@ -39,34 +39,75 @@ export class Dashboard  implements OnInit {
       }
     });
   }
+
   private renderMonthlyReservationsChart(): void {
     if (!this.stats?.monthlyReservations) return;
 
-    const labels = Array.from({length: new Date().getDate()}, (_, i) => i + 1);
-    const data = labels.map(day => this.stats?.monthlyReservations[day] || 0);
+    const now = new Date();
+    const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
 
-    const ctx = (document.getElementById('monthlyReservationsChart') as HTMLCanvasElement).getContext('2d');
-    if (ctx) {
-      this.chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels,
-          datasets: [{
-            label: 'Rezervacije po danu',
+    const labels = Array.from({ length: daysInMonth }, (_, i) => `${i + 1}`);
+    const data = labels.map(day =>
+      this.stats?.monthlyReservations[Number(day)] || 0
+    );
+
+    const ctx = (document.getElementById('monthlyReservationsChart') as HTMLCanvasElement)
+      ?.getContext('2d');
+
+    if (!ctx) return;
+
+    if (this.chart) {
+      this.chart.destroy();
+    }
+
+    this.chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          {
+            label: 'Rezervacije',
             data,
-            backgroundColor: '#1e5aa8'
-          }]
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: { display: false },
+            borderColor: '#3b82f6',              // plava linija
+            backgroundColor: 'rgba(59,130,246,0.1)', // blagi fill
+            borderWidth: 2,
+            fill: true,
+            tension: 0.4,                        // glatka linija
+            pointRadius: 0,                      // 👈 NEMA TAČKICA
+            pointHoverRadius: 4
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false                      // 👈 nema legendu (kao na slici)
           },
-          scales: {
-            y: { beginAtZero: true }
+          tooltip: {
+            mode: 'index',
+            intersect: false
+          }
+        },
+        scales: {
+          x: {
+            grid: {
+              display: false                    // 👈 nema vertikalnih linija
+            }
+          },
+          y: {
+            beginAtZero: true,
+            ticks: {
+              stepSize: 10
+            },
+            grid: {
+              color: '#e5e7eb'                  // blage horizontalne linije
+            }
           }
         }
-      });
-    }
+      }
+    });
   }
+
 }

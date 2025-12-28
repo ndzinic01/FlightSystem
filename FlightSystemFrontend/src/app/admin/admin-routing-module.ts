@@ -12,6 +12,7 @@ import { Reports } from './reports/reports';
 import { Profile } from './profile/profile';
 import { Search } from './search/search';
 import {Countries} from './countries/countries';
+import {Destination} from './destination/destination';
 
 const routes: Routes = [
   {
@@ -19,6 +20,7 @@ const routes: Routes = [
     component: AdminLayout,
     children: [
       { path: 'dashboard', component: Dashboard },
+      {path: 'destination', component: Destination },
       { path: 'aircraft', component: Aircraft },
       { path: 'airports', component: Airports },
       { path: 'flights', component: Flights },

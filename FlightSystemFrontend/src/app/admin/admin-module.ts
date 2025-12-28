@@ -16,6 +16,7 @@ import { Profile } from './profile/profile';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from '@angular/common/http';
 import { Countries } from './countries/countries';
+import { Destination } from './destination/destination';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { Countries } from './countries/countries';
     Reports,
     Search,
     Profile,
-    Countries
+    Countries,
+    Destination
   ],
     imports: [
         CommonModule,

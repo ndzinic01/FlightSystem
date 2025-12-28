@@ -1,0 +1,51 @@
+.dest-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.dest-table th,
+.dest-table td {
+  padding: 10px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.airport-route {
+  font-weight: 600;
+  color: #374151;
+}
+
+.edit-icons {
+  display: flex;
+  gap: 10px;
+}
+
+.edit-icons .icon {
+  cursor: pointer;
+  color: #111827; /* crno-bijelo */
+}
+
+.edit-icons .icon:hover {
+  opacity: 0.6;
+}
+
+.btn-flights {
+  background-color: #1f2937;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-flights:hover {
+  background-color: #374151;
+}
+
+.btn-add {
+  background: #2563eb;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+}
+
