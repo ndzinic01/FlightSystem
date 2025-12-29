@@ -1,18 +1,11 @@
 .dest-header {
   margin-bottom: 24px;
 }
-/* Header Uredi */
-.dest-table th:nth-child(4),
-.dest-table td:nth-child(4) {
-  text-align: center;
+.inactive {
+  background-color: #f0f0f0; /* svijetlosiva pozadina */
+  color: #888; /* tamniji tekst */
 }
 
-/* Ikonice ostaju u sredini */
-.edit-icons {
-  display: flex;
-  justify-content: center;
-  gap: 14px;
-}
 
 .title-row {
   display: flex;
@@ -24,7 +17,6 @@
   margin-top: 12px;
 }
 
-/* search full-width ali lijep */
 .search-input {
   width: 320px;
   padding: 8px 12px;
@@ -33,13 +25,11 @@
   font-size: 14px;
 }
 
-
 .search-input:focus {
   outline: none;
   border-color: #2563eb;
 }
 
-/* ADD BUTTON */
 .btn-add {
   background-color: #2563eb;
   color: #fff;
@@ -58,7 +48,7 @@
 .dest-table {
   width: 100%;
   border-collapse: collapse;
-  table-layout: fixed; /* 🔑 VAŽNO za poravnanje */
+  table-layout: fixed;
 }
 
 .dest-table th,
@@ -82,7 +72,16 @@
 }
 
 /* UREDI */
+.dest-table th:nth-child(4),
+.dest-table td:nth-child(4) {
+  text-align: center;
+}
 
+.edit-icons {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
 
 .edit-icons .icon {
   cursor: pointer;
@@ -94,7 +93,7 @@
   opacity: 0.6;
 }
 
-/* LETOVI */
+/* LETOVI BUTTON */
 .letovi-col {
   text-align: center;
 }
@@ -112,5 +111,74 @@
 .btn-flights:hover {
   background-color: #374151;
 }
+
+/* LETOVI WRAPPER */
+.flights-wrapper {
+  background: #f9fafb;
+  padding: 20px;
+}
+
+.loading,
+.no-flights {
+  text-align: center;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* GRID */
+.flights-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+/* CARD */
+.flight-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.flight-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.flight-code {
+  font-weight: 700;
+}
+
+.status {
+  font-size: 12px;
+  padding: 3px 8px;
+  border-radius: 12px;
+  background: #e5e7eb;
+}
+
+.status.Scheduled { background: #dbeafe; color: #1e40af; }
+.status.Boarding { background: #dcfce7; color: #166534; }
+.status.Delayed { background: #fef3c7; color: #92400e; }
+.status.Cancelled { background: #fee2e2; color: #991b1b; }
+.status.Completed { background: #e5e7eb; }
+
+.flight-info div {
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.flight-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+.price {
+  color: #2563eb;
+}
+
+
 
 

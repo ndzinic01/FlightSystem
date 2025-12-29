@@ -90,33 +90,20 @@ namespace FlightSystem.Services
         }
 
         // ===================== UPDATE =====================
-        public async Task<DestinationGetDTO?> UpdateAsync(DestinationUpdateDTO dto)
+        public async Task<DestinationUpdateDTO?> UpdateAsync(DestinationUpdateDTO dto)
         {
             var dest = await _db.Destinations.FindAsync(dto.Id);
             if (dest == null)
                 return null;
 
-            dest.FromAirportId = dto.FromAirportId;
-            dest.ToAirportId = dto.ToAirportId;
             dest.IsActive = dto.IsActive;
 
             await _db.SaveChangesAsync();
 
-            var updated = await _db.Destinations
-                .Include(x => x.FromAirport)
-                    .ThenInclude(a => a.City)
-                .Include(x => x.ToAirport)
-                    .ThenInclude(a => a.City)
-                .FirstAsync(x => x.Id == dest.Id);
-
-            return new DestinationGetDTO
+            return new DestinationUpdateDTO
             {
-                Id = updated.Id,
-                FromCity = updated.FromAirport.City.Name,
-                ToCity = updated.ToAirport.City.Name,
-                FromAirportCode = updated.FromAirport.Code,
-                ToAirportCode = updated.ToAirport.Code,
-                IsActive = updated.IsActive
+                Id = dest.Id,
+                IsActive = dest.IsActive
             };
         }
 
@@ -131,6 +118,9 @@ namespace FlightSystem.Services
             await _db.SaveChangesAsync();
             return true;
         }
+
+        
+
     }
 }
 

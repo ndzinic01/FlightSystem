@@ -114,6 +114,30 @@ namespace FlightSystem.Services
             await _db.SaveChangesAsync();
             return true;
         }
+        public async Task<List<FlightGetDTO>> GetByDestination(int destinationId)
+        {
+            return await _db.Flights
+                .Where(x => x.DestinationId == destinationId)
+                .Include(x => x.Destination).ThenInclude(d => d.FromAirport)
+                .Include(x => x.Destination).ThenInclude(d => d.ToAirport)
+                .Include(x => x.Airline)
+                .Include(x => x.Aircraft)
+                .Select(x => new FlightGetDTO
+                {
+                    Id = x.Id,
+                    Code = x.Code,
+                    Destination = $"{x.Destination.FromAirport.Name} → {x.Destination.ToAirport.Name}",
+                    Airline = x.Airline.Name,
+                    Aircraft = $"{x.Aircraft.Manufacturer} {x.Aircraft.Model}",
+                    DepartureTime = x.DepartureTime,
+                    ArrivalTime = x.ArrivalTime,
+                    Status = x.Status,
+                    Price = x.Price,
+                    AvailableSeats = x.AvailableSeats
+                })
+                .ToListAsync();
+        }
+
     }
 }
 

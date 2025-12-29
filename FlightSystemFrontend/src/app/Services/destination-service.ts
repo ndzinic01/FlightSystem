@@ -12,6 +12,11 @@ export interface DestinationDTO {
 }
 
 
+export interface DestinationUpdateDTO {
+  id: number;
+  isActive: boolean;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -27,4 +32,15 @@ export class DestinationService {
   delete(id: number) {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
+
+  toggleStatus(dto: { id: number; isActive: boolean }) {
+    return this.http.put<{ id: number; isActive: boolean }>(`${this.apiUrl}/toggle-active`, dto);
+  }
+
+  getByDestination(destinationId: number) {
+    return this.http.get<any[]>(
+      `${this.apiUrl}/Flight/by-destination/${destinationId}`
+    );
+  }
+
 }

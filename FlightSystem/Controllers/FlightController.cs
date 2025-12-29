@@ -51,6 +51,12 @@ namespace FlightSystem.Controllers
             if (!success) return NotFound();
             return Ok(new { message = "Flight deleted successfully." });
         }
+        [HttpGet("by-destination/{destinationId:int}")]
+        public async Task<IActionResult> GetByDestination(int destinationId)
+        {
+            return Ok(await _service.GetByDestination(destinationId));
+        }
+
     }
 }
 

@@ -15,7 +15,6 @@
   </div>
 </div>
 
-
 <table class="dest-table">
   <thead>
   <tr>
@@ -28,25 +27,78 @@
   </thead>
 
   <tbody>
-  <tr *ngFor="let d of filteredDestinations">
-    <td>{{ d.fromCity }}</td>
-    <td>{{ d.toCity }}</td>
+  <ng-container *ngFor="let d of filteredDestinations">
+    <!-- DESTINACIJA ROW -->
+    <tr [class.inactive]="!d.isActive">
+      <td>{{ d.fromCity }}</td>
+      <td>{{ d.toCity }}</td>
+      <td class="airport-route">
+        {{ d.fromAirportCode }} → {{ d.toAirportCode }}
+      </td>
+      <td class="edit-icons">
+        <span class="icon edit" (click)="editDestination(d)">✏️</span>
+        <span class="icon delete" (click)="deleteDestination(d.id)">🗑️</span>
+      </td>
+      <td class="letovi-col">
+        <button class="btn-flights" (click)="showFlights(d.id)">
+          Letovi
+        </button>
+      </td>
+    </tr>
 
-    <td class="airport-route">
-      {{ d.fromAirportCode }} → {{ d.toAirportCode }}
-    </td>
 
-    <td class="edit-icons">
-      <span class="icon edit">✏️</span>
-      <span class="icon delete">🗑️</span>
-    </td>
+    <!-- LETOVI ROW -->
+    <tr *ngIf="selectedDestinationId === d.id">
+      <td colspan="5" class="flights-wrapper">
 
-    <td class="letovi-col">
-      <button class="btn-flights">Letovi</button>
-    </td>
-  </tr>
+        <!-- LOADING -->
+        <div *ngIf="loadingFlights" class="loading">
+          Učitavanje letova...
+        </div>
+
+        <!-- NO FLIGHTS -->
+        <div *ngIf="!loadingFlights && flights.length === 0" class="no-flights">
+          Nema dostupnih letova za ovu destinaciju.
+        </div>
+
+        <!-- FLIGHTS LIST -->
+        <div *ngIf="!loadingFlights && flights.length > 0" class="flights-grid">
+          <div class="flight-card" *ngFor="let f of flights">
+            <div class="flight-header">
+              <span class="flight-code">{{ f.code }}</span>
+              <span class="status {{ f.status }}">{{ f.status }}</span>
+            </div>
+
+            <div class="flight-info">
+              <div>
+                <strong>Polazak:</strong>
+                {{ f.departureTime | date:'dd.MM.yyyy HH:mm' }}
+              </div>
+              <div>
+                <strong>Dolazak:</strong>
+                {{ f.arrivalTime | date:'dd.MM.yyyy HH:mm' }}
+              </div>
+              <div>
+                <strong>Aviokompanija:</strong> {{ f.airline }}
+              </div>
+              <div>
+                <strong>Avion:</strong> {{ f.aircraft }}
+              </div>
+            </div>
+
+            <div class="flight-footer">
+              <span class="price">{{ f.price }} KM</span>
+              <span class="seats">Slobodna mjesta: {{ f.availableSeats }}</span>
+            </div>
+          </div>
+        </div>
+
+      </td>
+    </tr>
+  </ng-container>
   </tbody>
 </table>
+
 
 
 

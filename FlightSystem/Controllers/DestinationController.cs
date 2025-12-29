@@ -12,6 +12,7 @@ public class DestinationController : ControllerBase
     {
         _service = service;
     }
+    
 
     [HttpGet]
     public async Task<IActionResult> GetAll()
@@ -33,13 +34,14 @@ public class DestinationController : ControllerBase
         return Ok(await _service.CreateAsync(dto));
     }
 
-    [HttpPut]
-    public async Task<IActionResult> Update(DestinationUpdateDTO dto)
+    [HttpPut("toggle-active")]
+    public async Task<IActionResult> ToggleActive(DestinationUpdateDTO dto)
     {
         var result = await _service.UpdateAsync(dto);
         if (result == null) return NotFound();
         return Ok(result);
     }
+
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
@@ -48,5 +50,7 @@ public class DestinationController : ControllerBase
         if (!result) return NotFound();
         return Ok(new { message = "Deleted successfully" });
     }
+   
+
 }
 

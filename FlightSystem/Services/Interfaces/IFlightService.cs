@@ -8,6 +8,8 @@ namespace FlightSystem.Services
         Task<FlightGetDTO?> GetById(int id);
         Task<FlightGetDTO> Create(FlightCreateDTO dto);
         Task<FlightGetDTO?> Update(int id, FlightUpdateDTO dto);
+        Task<List<FlightGetDTO>> GetByDestination(int destinationId);
+
         Task<bool> Delete(int id);
     }
 }

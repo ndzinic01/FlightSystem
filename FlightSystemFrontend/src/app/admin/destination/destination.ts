@@ -1,5 +1,6 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {DestinationService, DestinationDTO} from '../../Services/destination-service';
+import {DestinationService, DestinationDTO, DestinationUpdateDTO} from '../../Services/destination-service';
+import {FlightService} from '../../Services/flight-service';
 
 @Component({
   selector: 'app-destination',
@@ -14,8 +15,16 @@ export class Destination implements OnInit {
   filteredDestinations: DestinationDTO[] = [];
   searchTerm: string = '';
 
+  selectedDestinationId: number | null = null;
+  flights: any[] = [];
+  loadingFlights = false;
+
+  editingDestination: any | null = null;
+
+
   constructor(private destinationService: DestinationService,
-              private cd: ChangeDetectorRef) {}
+              private cd: ChangeDetectorRef,
+              private flightService: FlightService) {}
 
   ngOnInit(): void {
     this.loadDestinations();
@@ -59,4 +68,54 @@ export class Destination implements OnInit {
       this.loadDestinations();
     });
   }
+  showFlights(destinationId: number) {
+    if (this.selectedDestinationId === destinationId) {
+      this.selectedDestinationId = null;
+      this.flights = [];
+      return;
+    }
+
+    this.selectedDestinationId = destinationId;
+    this.loadingFlights = true;
+
+    this.flightService
+      .getByDestination(destinationId)
+      .subscribe({
+        next: res => {
+          this.flights = res;
+          this.loadingFlights = false;
+          this.cd.detectChanges(); // 👈 ISTO KAO AIRPORTS
+        },
+        error: () => this.loadingFlights = false
+      });
+  }
+  editDestination(dest: DestinationDTO) {
+    const confirmEdit = confirm(
+      `Da li želite ${dest.isActive ? 'deaktivirati' : 'aktivirati'} ovu destinaciju?`
+    );
+    if (!confirmEdit) return;
+
+    this.destinationService.toggleStatus({ id: dest.id, isActive: !dest.isActive }).subscribe({
+      next: updated => {
+        dest.isActive = updated.isActive;
+        this.cd.detectChanges();
+      },
+      error: err => console.error(err)
+    });
+  }
+
+
+  deleteDestination(id: number) {
+    const confirmDelete = confirm('Da li ste sigurni da želite obrisati destinaciju?');
+    if (!confirmDelete) return;
+
+    this.destinationService.delete(id).subscribe({
+      next: () => {
+        this.destinations = this.destinations.filter(d => d.id !== id);
+        this.applyFilter();
+      },
+      error: err => console.error(err)
+    });
+  }
+
 }
