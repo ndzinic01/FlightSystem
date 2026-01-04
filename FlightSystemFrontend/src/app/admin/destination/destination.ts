@@ -1,6 +1,9 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {DestinationService, DestinationDTO, DestinationUpdateDTO} from '../../Services/destination-service';
 import {FlightService} from '../../Services/flight-service';
+import { MatDialog } from '@angular/material/dialog';
+import {SnackbarService} from '../../Services/Notifications/snackbar-service';
+import {ConfirmDialog} from '../../Shared/confirm-dialog/confirm-dialog';
 
 @Component({
   selector: 'app-destination',
@@ -24,7 +27,9 @@ export class Destination implements OnInit {
 
   constructor(private destinationService: DestinationService,
               private cd: ChangeDetectorRef,
-              private flightService: FlightService) {}
+              private flightService: FlightService,
+              private snack: SnackbarService,
+              private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.loadDestinations();
@@ -90,32 +95,56 @@ export class Destination implements OnInit {
       });
   }
   editDestination(dest: DestinationDTO) {
-    const confirmEdit = confirm(
-      `Da li želite ${dest.isActive ? 'deaktivirati' : 'aktivirati'} ovu destinaciju?`
-    );
-    if (!confirmEdit) return;
+    const dialogRef = this.dialog.open(ConfirmDialog, {
+      width: '360px',
+      data: {
+        message: `Da li želite ${dest.isActive ? 'deaktivirati' : 'aktivirati'} ovu destinaciju?`
+      }
+    });
 
-    this.destinationService.toggleStatus({ id: dest.id, isActive: !dest.isActive }).subscribe({
-      next: updated => {
-        dest.isActive = updated.isActive;
-        this.cd.detectChanges();
-      },
-      error: err => console.error(err)
+    dialogRef.afterClosed().subscribe(result => {
+      if (!result) return;
+
+      this.destinationService
+        .toggleStatus({ id: dest.id, isActive: !dest.isActive })
+        .subscribe({
+          next: updated => {
+            dest.isActive = updated.isActive;
+            this.snack.success('Status destinacije je uspješno izmijenjen.');
+            this.cd.detectChanges();
+          },
+          error: () => {
+            this.snack.error('Greška prilikom izmjene statusa.');
+          }
+        });
     });
   }
+
 
 
   deleteDestination(id: number) {
-    const confirmDelete = confirm('Da li ste sigurni da želite obrisati destinaciju?');
-    if (!confirmDelete) return;
+    const dialogRef = this.dialog.open(ConfirmDialog, {
+      width: '360px',
+      data: {
+        message: 'Da li ste sigurni da želite obrisati ovu destinaciju?'
+      }
+    });
 
-    this.destinationService.delete(id).subscribe({
-      next: () => {
-        this.destinations = this.destinations.filter(d => d.id !== id);
-        this.applyFilter();
-      },
-      error: err => console.error(err)
+    dialogRef.afterClosed().subscribe(result => {
+      if (!result) return;
+
+      this.destinationService.delete(id).subscribe({
+        next: () => {
+          this.destinations = this.destinations.filter(d => d.id !== id);
+          this.applyFilter();
+          this.snack.success('Destinacija je uspješno obrisana.');
+        },
+        error: () => {
+          this.snack.error('Nije moguće obrisati destinaciju.');
+        }
+      });
     });
   }
+
 
 }

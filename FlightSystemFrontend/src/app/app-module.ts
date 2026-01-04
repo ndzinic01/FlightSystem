@@ -5,14 +5,20 @@ import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
 import {AuthInterceptor} from './auth/auth.interceptor';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ConfirmDialog } from './Shared/confirm-dialog/confirm-dialog';
 
 @NgModule({
   declarations: [
-    App
+    App,
+    ConfirmDialog
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MatSnackBarModule,
+    MatDialogModule
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),
