@@ -1,1 +1,109 @@
-<p>flights works!</p>
+<div class="flights-header">
+  <div class="title-row">
+    <h2>✈️ Letovi</h2>
+<!--    (click)="openAddDialog()"-->
+    <button class="btn-add" >
+      + Dodaj let
+    </button>
+  </div>
+
+  <div class="filters-row">
+    <!-- Pretraga po destinaciji -->
+    <div class="filter-group">
+      <input
+        type="text"
+        placeholder="Pretraži po destinaciji 🔍"
+        [(ngModel)]="destinationSearchTerm"
+        (input)="onDestinationSearch()"
+        class="search-input"
+      />
+    </div>
+
+    <!-- Filter po datumu -->
+    <div class="filter-group date-filter">
+      <input
+        type="date"
+        [(ngModel)]="selectedDate"
+        (change)="onDateChange($event)"
+        class="date-input"
+        placeholder="Pretraži po datumu 📅"
+      />
+      <button
+        *ngIf="selectedDate"
+        class="btn-clear-date"
+        (click)="clearDateFilter()"
+        title="Očisti datum">
+        ✕
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Loading state -->
+<div *ngIf="loading" class="loading-container">
+  <p>Učitavanje letova...</p>
+</div>
+
+<!-- Empty state -->
+<div *ngIf="!loading && filteredFlights.length === 0" class="empty-state">
+  <p>Nema letova za prikaz.</p>
+</div>
+
+<!-- Flights table -->
+<table class="flights-table" *ngIf="!loading && filteredFlights.length > 0">
+  <thead>
+  <tr>
+    <th>Destinacija</th>
+    <th>Datum</th>
+    <th>Polazak/Dolazak</th>
+    <th>Broj leta</th>
+    <th>Cijena</th>
+    <th>Status</th>
+    <th>Uredi</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <tr *ngFor="let flight of filteredFlights">
+    <!-- Destinacija -->
+    <td class="destination-cell">
+      {{ flight.destination }}
+    </td>
+
+    <!-- Datum -->
+    <td>
+      {{ formatDate(flight.departureTime) }}
+    </td>
+
+    <!-- Polazak/Dolazak -->
+    <td class="time-cell">
+      {{ formatTime(flight.departureTime) }}/{{ formatTime(flight.arrivalTime) }}
+    </td>
+
+    <!-- Broj leta -->
+    <td class="flight-code">
+      {{ flight.code }}
+    </td>
+
+    <!-- Cijena -->
+    <td class="price-cell">
+      {{ flight.price }}€
+    </td>
+
+    <!-- Status -->
+    <!-- Status -->
+    <td>
+  <span class="status-badge" [ngClass]="getStatusClass(flight.status)">
+    {{ flight.status }}
+  </span>
+    </td>
+
+    <!-- Actions -->
+    <td class="actions-cell">
+<!--      (click)="editFlight(flight)"-->
+      <span class="icon edit"  title="Uredi">✏️</span>
+      <span class="icon delete" (click)="deleteFlight(flight.id)" title="Obriši">🗑️</span>
+    </td>
+  </tr>
+  </tbody>
+</table>

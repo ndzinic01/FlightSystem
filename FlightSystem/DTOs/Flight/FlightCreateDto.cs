@@ -10,7 +10,7 @@ namespace FlightSystem.DTOs.Flight
         public int AircraftId { get; set; }
         public DateTime DepartureTime { get; set; }
         public DateTime ArrivalTime { get; set; }
-        public FlightStatus Status { get; set; }
+        public FlightStatus Status { get; set; } = FlightStatus.Scheduled;
         public decimal Price { get; set; }
         public int AvailableSeats { get; set; }
     }

@@ -17,15 +17,20 @@ namespace FlightSystem.Services
         public async Task<List<FlightGetDTO>> GetAll()
         {
             return await _db.Flights
-                .Include(x => x.Destination).ThenInclude(d => d.FromAirport)
-                .Include(x => x.Destination).ThenInclude(d => d.ToAirport)
+                .Include(x => x.Destination)
+                    .ThenInclude(d => d.FromAirport)
+                    .ThenInclude(a => a.City) // 🔥 DODANO
+                .Include(x => x.Destination)
+                    .ThenInclude(d => d.ToAirport)
+                    .ThenInclude(a => a.City) // 🔥 DODANO
                 .Include(x => x.Airline)
                 .Include(x => x.Aircraft)
                 .Select(x => new FlightGetDTO
                 {
                     Id = x.Id,
                     Code = x.Code,
-                    Destination = $"{x.Destination.FromAirport.Name} → {x.Destination.ToAirport.Name}",
+                    // 🔥 GRADOVI umjesto aerodroma
+                    Destination = $"{x.Destination.FromAirport.City.Name} → {x.Destination.ToAirport.City.Name}",
                     Airline = x.Airline.Name,
                     Aircraft = $"{x.Aircraft.Manufacturer} {x.Aircraft.Model}",
                     DepartureTime = x.DepartureTime,
@@ -40,8 +45,12 @@ namespace FlightSystem.Services
         public async Task<FlightGetDTO?> GetById(int id)
         {
             var flight = await _db.Flights
-                .Include(x => x.Destination).ThenInclude(d => d.FromAirport)
-                .Include(x => x.Destination).ThenInclude(d => d.ToAirport)
+                .Include(x => x.Destination)
+                    .ThenInclude(d => d.FromAirport)
+                    .ThenInclude(a => a.City) // 🔥 DODANO
+                .Include(x => x.Destination)
+                    .ThenInclude(d => d.ToAirport)
+                    .ThenInclude(a => a.City) // 🔥 DODANO
                 .Include(x => x.Airline)
                 .Include(x => x.Aircraft)
                 .FirstOrDefaultAsync(x => x.Id == id);
@@ -52,7 +61,8 @@ namespace FlightSystem.Services
             {
                 Id = flight.Id,
                 Code = flight.Code,
-                Destination = $"{flight.Destination.FromAirport.Name} → {flight.Destination.ToAirport.Name}",
+                // 🔥 GRADOVI umjesto aerodroma
+                Destination = $"{flight.Destination.FromAirport.City.Name} → {flight.Destination.ToAirport.City.Name}",
                 Airline = flight.Airline.Name,
                 Aircraft = $"{flight.Aircraft.Manufacturer} {flight.Aircraft.Model}",
                 DepartureTime = flight.DepartureTime,
@@ -81,7 +91,6 @@ namespace FlightSystem.Services
             _db.Flights.Add(flight);
             await _db.SaveChangesAsync();
 
-            // Map back to DTO
             return await GetById(flight.Id);
         }
 
@@ -114,19 +123,25 @@ namespace FlightSystem.Services
             await _db.SaveChangesAsync();
             return true;
         }
+
         public async Task<List<FlightGetDTO>> GetByDestination(int destinationId)
         {
             return await _db.Flights
                 .Where(x => x.DestinationId == destinationId)
-                .Include(x => x.Destination).ThenInclude(d => d.FromAirport)
-                .Include(x => x.Destination).ThenInclude(d => d.ToAirport)
+                .Include(x => x.Destination)
+                    .ThenInclude(d => d.FromAirport)
+                    .ThenInclude(a => a.City) // 🔥 DODANO
+                .Include(x => x.Destination)
+                    .ThenInclude(d => d.ToAirport)
+                    .ThenInclude(a => a.City) // 🔥 DODANO
                 .Include(x => x.Airline)
                 .Include(x => x.Aircraft)
                 .Select(x => new FlightGetDTO
                 {
                     Id = x.Id,
                     Code = x.Code,
-                    Destination = $"{x.Destination.FromAirport.Name} → {x.Destination.ToAirport.Name}",
+                    // 🔥 GRADOVI umjesto aerodroma
+                    Destination = $"{x.Destination.FromAirport.City.Name} → {x.Destination.ToAirport.City.Name}",
                     Airline = x.Airline.Name,
                     Aircraft = $"{x.Aircraft.Manufacturer} {x.Aircraft.Model}",
                     DepartureTime = x.DepartureTime,
@@ -137,7 +152,6 @@ namespace FlightSystem.Services
                 })
                 .ToListAsync();
         }
-
     }
 }
 

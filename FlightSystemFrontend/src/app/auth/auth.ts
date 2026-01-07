@@ -12,7 +12,6 @@ interface LoginResponse {
   providedIn: 'root'
 })
 export class Auth {
-
   private baseUrl = 'https://localhost:7251/api/User';
   private currentUserSubject = new BehaviorSubject<any>(null);
 
@@ -46,8 +45,8 @@ export class Auth {
   getToken() {
     return localStorage.getItem('token');
   }
+
   getUser(): any {
     return JSON.parse(localStorage.getItem('user') || '{}');
   }
 }
-

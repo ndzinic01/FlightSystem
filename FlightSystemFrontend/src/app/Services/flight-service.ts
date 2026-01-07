@@ -2,19 +2,81 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+// 🔥 STRING enum za lakše rukovanje
+export enum FlightStatus {
+  Scheduled = 'Scheduled',
+  Boarding = 'Boarding',
+  Delayed = 'Delayed',
+  Cancelled = 'Cancelled',
+  Completed = 'Completed'
+}
+
+export interface FlightDTO {
+  id: number;
+  code: string;
+  destination: string;
+  airline: string;
+  aircraft: string;
+  departureTime: string;
+  arrivalTime: string;
+  status: string; // 🔥 STRING umjesto enuma
+  price: number;
+  availableSeats: number;
+}
+
+export interface FlightCreateDTO {
+  code: string;
+  destinationId: number;
+  airlineId: number;
+  aircraftId: number;
+  departureTime: string;
+  arrivalTime: string;
+  status: string;
+  price: number;
+  availableSeats: number;
+}
+
+export interface FlightUpdateDTO {
+  code: string;
+  destinationId: number;
+  airlineId: number;
+  aircraftId: number;
+  departureTime: string;
+  arrivalTime: string;
+  status: string;
+  price: number;
+  availableSeats: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class FlightService {
-
-  private apiUrl = 'https://localhost:7251/api';
-  // ⬆️ promijeni port ako ti je drugačiji
+  private apiUrl = 'https://localhost:7251/api/Flight';
 
   constructor(private http: HttpClient) {}
 
-  getByDestination(destinationId: number): Observable<any[]> {
-    return this.http.get<any[]>(
-      `${this.apiUrl}/Flight/by-destination/${destinationId}`
-    );
+  getAll(): Observable<FlightDTO[]> {
+    return this.http.get<FlightDTO[]>(this.apiUrl);
+  }
+
+  getById(id: number): Observable<FlightDTO> {
+    return this.http.get<FlightDTO>(`${this.apiUrl}/${id}`);
+  }
+
+  create(dto: FlightCreateDTO): Observable<FlightDTO> {
+    return this.http.post<FlightDTO>(this.apiUrl, dto);
+  }
+
+  update(id: number, dto: FlightUpdateDTO): Observable<FlightDTO> {
+    return this.http.put<FlightDTO>(`${this.apiUrl}/${id}`, dto);
+  }
+
+  delete(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
+  }
+
+  getByDestination(destinationId: number): Observable<FlightDTO[]> {
+    return this.http.get<FlightDTO[]>(`${this.apiUrl}/by-destination/${destinationId}`);
   }
 }

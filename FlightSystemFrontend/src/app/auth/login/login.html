@@ -1,10 +1,12 @@
 <div class="login-container">
-
   <div class="login-card">
-    <h2>Prijava</h2>
+    <div class="login-header">
+      <div class="icon">✈️</div>
+      <h2>Admin Prijava</h2>
+      <p class="subtitle">Dobrodošli nazad</p>
+    </div>
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-
       <div class="form-group">
         <label for="username">Korisničko ime</label>
         <input
@@ -25,15 +27,18 @@
         />
       </div>
 
-      <button type="submit" [disabled]="loginForm.invalid">
-        Prijavi se
+      <button type="submit" [disabled]="loginForm.invalid || isLoading" [class.loading]="isLoading">
+        <span *ngIf="!isLoading">Prijavi se</span>
+        <span *ngIf="isLoading" class="spinner">
+          <span class="spinner-icon">⏳</span> Prijava u toku...
+        </span>
       </button>
-
     </form>
 
-
+    <div class="footer-text">
+      FlightSystem Admin Panel v1.0
+    </div>
   </div>
-
 </div>
 
 
