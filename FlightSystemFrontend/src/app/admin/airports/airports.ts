@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AirportAddUpdate, Airport, AirportService} from '../../Services/airport.service';
+import {AirportAddUpdate, AirportDTO, AirportService} from '../../Services/airport.service';
 
 @Component({
   selector: 'app-airports',
@@ -10,7 +10,7 @@ import {AirportAddUpdate, Airport, AirportService} from '../../Services/airport.
 })
 export class Airports implements OnInit {
 
-  airports: Airport[] = [];
+  airports: AirportDTO[] = [];
   form!: FormGroup;
   selectedId: number | null = null;
   isLoading = false;
@@ -55,7 +55,7 @@ export class Airports implements OnInit {
     });
   }
 
-  edit(airport: Airport) {
+  edit(airport: AirportDTO) {
     this.selectedId = airport.id;
     this.form.patchValue({
       name: airport.name,

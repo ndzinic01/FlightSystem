@@ -56,6 +56,14 @@ namespace FlightSystem.Controllers
 
             return Ok(new { message = "Airport deleted." });
         }
+        [HttpGet("get-by-city/{cityId:int}")]
+        public async Task<IActionResult> GetByCityId(int cityId)
+        {
+            var airports = await _service.GetByCityId(cityId);
+            return Ok(airports);
+        }
+
+
     }
 }
 

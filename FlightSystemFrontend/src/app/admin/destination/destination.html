@@ -1,7 +1,9 @@
 <div class="dest-header">
   <div class="title-row">
-    <h2>Destinacije</h2>
-    <button class="btn-add">+ Dodaj destinaciju</button>
+    <h2>🗺️ Destinacije</h2>
+    <button class="btn-add" (click)="openAddDialog()">
+      + Dodaj destinaciju
+    </button>
   </div>
 
   <div class="search-row">
@@ -41,16 +43,14 @@
       </td>
       <td class="letovi-col">
         <button class="btn-flights" (click)="showFlights(d.id)">
-          Letovi
+          Letovi →
         </button>
       </td>
     </tr>
 
-
     <!-- LETOVI ROW -->
     <tr *ngIf="selectedDestinationId === d.id">
       <td colspan="5" class="flights-wrapper">
-
         <!-- LOADING -->
         <div *ngIf="loadingFlights" class="loading">
           Učitavanje letova...
@@ -72,11 +72,11 @@
             <div class="flight-info">
               <div>
                 <strong>Polazak:</strong>
-                {{ f.departureTime | date:'dd.MM.yyyy HH:mm' }}
+                {{ f.departureTime | date: 'dd.MM.yyyy HH:mm' }}
               </div>
               <div>
                 <strong>Dolazak:</strong>
-                {{ f.arrivalTime | date:'dd.MM.yyyy HH:mm' }}
+                {{ f.arrivalTime | date: 'dd.MM.yyyy HH:mm' }}
               </div>
               <div>
                 <strong>Aviokompanija:</strong> {{ f.airline }}
@@ -92,7 +92,6 @@
             </div>
           </div>
         </div>
-
       </td>
     </tr>
   </ng-container>

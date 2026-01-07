@@ -9,6 +9,7 @@ namespace FlightSystem.Services
         Task<AirportGetDTO> AddAsync(AirportAddUpdateDTO dto);
         Task<AirportGetDTO?> UpdateAsync(int id, AirportAddUpdateDTO dto);
         Task<bool> DeleteAsync(int id);
+        Task<List<AirportGetDTO>> GetByCityId(int cityId);
     }
 }
 

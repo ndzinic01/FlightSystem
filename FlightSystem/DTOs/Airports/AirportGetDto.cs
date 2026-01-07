@@ -9,5 +9,6 @@
         public string CityName { get; set; } = string.Empty;
 
         public bool IsActive { get; set; }
+        public string Code { get; set; } = string.Empty;
     }
 }

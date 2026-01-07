@@ -48,6 +48,12 @@ namespace FlightSystem.Controllers
             if (!success) return NotFound();
             return Ok(new { message = "City deleted successfully." });
         }
+        [HttpGet("get-by-country/{countryId:int}")]
+        public async Task<IActionResult> GetByCountryId(int countryId)
+        {
+            var cities = await _service.GetByCountryId(countryId);
+            return Ok(cities);
+        }
     }
 }
 

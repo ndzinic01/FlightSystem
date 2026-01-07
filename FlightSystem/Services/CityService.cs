@@ -72,6 +72,20 @@ namespace FlightSystem.Services
             await _db.SaveChangesAsync();
             return true;
         }
+        public async Task<List<CityGetDTO>> GetByCountryId(int countryId)
+        {
+            return await _db.Cities
+                .Include(c => c.Country)
+                .Where(c => c.CountryId == countryId)
+                .Select(c => new CityGetDTO
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    CountryId = c.CountryId,
+                    CountryName = c.Country.Name
+                })
+                .ToListAsync();
+        }
     }
 }
 

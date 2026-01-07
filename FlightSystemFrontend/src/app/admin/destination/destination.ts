@@ -1,9 +1,10 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {DestinationService, DestinationDTO, DestinationUpdateDTO} from '../../Services/destination-service';
-import {FlightService} from '../../Services/flight-service';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { DestinationService, DestinationDTO, DestinationAddDTO } from '../../Services/destination-service';
+import { FlightService } from '../../Services/flight-service';
 import { MatDialog } from '@angular/material/dialog';
-import {SnackbarService} from '../../Services/Notifications/snackbar-service';
-import {ConfirmDialog} from '../../Shared/confirm-dialog/confirm-dialog';
+import { SnackbarService } from '../../Services/Notifications/snackbar-service';
+import { ConfirmDialog } from '../../Shared/confirm-dialog/confirm-dialog';
+import { AddDestinationDialog } from './add-destination-dialog/add-destination-dialog';
 
 @Component({
   selector: 'app-destination',
@@ -22,14 +23,13 @@ export class Destination implements OnInit {
   flights: any[] = [];
   loadingFlights = false;
 
-  editingDestination: any | null = null;
-
-
-  constructor(private destinationService: DestinationService,
-              private cd: ChangeDetectorRef,
-              private flightService: FlightService,
-              private snack: SnackbarService,
-              private dialog: MatDialog) {}
+  constructor(
+    private destinationService: DestinationService,
+    private cd: ChangeDetectorRef,
+    private flightService: FlightService,
+    private snack: SnackbarService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.loadDestinations();
@@ -40,39 +40,57 @@ export class Destination implements OnInit {
     this.destinationService.getAll().subscribe({
       next: (data) => {
         this.destinations = data;
-        this.loading = false;
         this.filteredDestinations = data;
-        this.cd.detectChanges(); // 👈 ISTO KAO AIRPORTS
+        this.loading = false;
+        this.cd.detectChanges();
       },
       error: () => {
         this.loading = false;
+        this.snack.error('Greška prilikom učitavanja destinacija.');
       }
     });
   }
+
   applyFilter() {
     const term = this.searchTerm.trim().toLowerCase();
 
     if (!term) {
-      // 🔑 ako je search prazan → vrati sve iz baze
       this.filteredDestinations = this.destinations;
       return;
     }
 
-    this.filteredDestinations = this.destinations.filter(d =>
-      d.fromCity.toLowerCase().includes(term) ||
-      d.toCity.toLowerCase().includes(term) ||
-      d.fromAirportCode.toLowerCase().includes(term) ||
-      d.toAirportCode.toLowerCase().includes(term)
+    this.filteredDestinations = this.destinations.filter(
+      (d) =>
+        d.fromCity.toLowerCase().includes(term) ||
+        d.toCity.toLowerCase().includes(term) ||
+        d.fromAirportCode.toLowerCase().includes(term) ||
+        d.toAirportCode.toLowerCase().includes(term)
     );
   }
 
-  delete(id: number) {
-    if (!confirm('Da li ste sigurni?')) return;
+  openAddDialog() {
+    const dialogRef = this.dialog.open(AddDestinationDialog, {
+      width: '750px',  // 🔥 Povećano sa 700px
+      maxWidth: '90vw',  // 🔥 Maksimalno 90% ekrana
+      disableClose: true,
+      autoFocus: false  // 🔥 Sprečava automatski fokus na prvi input
+    });
 
-    this.destinationService.delete(id).subscribe(() => {
-      this.loadDestinations();
+    dialogRef.afterClosed().subscribe((result) => {
+      if (!result) return;
+
+      this.destinationService.create(result).subscribe({
+        next: () => {
+          this.snack.success('Destinacija je uspješno dodana.');
+          this.loadDestinations();
+        },
+        error: () => {
+          this.snack.error('Greška prilikom kreiranja destinacije.');
+        }
+      });
     });
   }
+
   showFlights(destinationId: number) {
     if (this.selectedDestinationId === destinationId) {
       this.selectedDestinationId = null;
@@ -83,17 +101,19 @@ export class Destination implements OnInit {
     this.selectedDestinationId = destinationId;
     this.loadingFlights = true;
 
-    this.flightService
-      .getByDestination(destinationId)
-      .subscribe({
-        next: res => {
-          this.flights = res;
-          this.loadingFlights = false;
-          this.cd.detectChanges(); // 👈 ISTO KAO AIRPORTS
-        },
-        error: () => this.loadingFlights = false
-      });
+    this.flightService.getByDestination(destinationId).subscribe({
+      next: (res) => {
+        this.flights = res;
+        this.loadingFlights = false;
+        this.cd.detectChanges();
+      },
+      error: () => {
+        this.loadingFlights = false;
+        this.snack.error('Greška prilikom učitavanja letova.');
+      }
+    });
   }
+
   editDestination(dest: DestinationDTO) {
     const dialogRef = this.dialog.open(ConfirmDialog, {
       width: '360px',
@@ -102,13 +122,13 @@ export class Destination implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (!result) return;
 
       this.destinationService
         .toggleStatus({ id: dest.id, isActive: !dest.isActive })
         .subscribe({
-          next: updated => {
+          next: (updated) => {
             dest.isActive = updated.isActive;
             this.snack.success('Status destinacije je uspješno izmijenjen.');
             this.cd.detectChanges();
@@ -120,8 +140,6 @@ export class Destination implements OnInit {
     });
   }
 
-
-
   deleteDestination(id: number) {
     const dialogRef = this.dialog.open(ConfirmDialog, {
       width: '360px',
@@ -130,12 +148,12 @@ export class Destination implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (!result) return;
 
       this.destinationService.delete(id).subscribe({
         next: () => {
-          this.destinations = this.destinations.filter(d => d.id !== id);
+          this.destinations = this.destinations.filter((d) => d.id !== id);
           this.applyFilter();
           this.snack.success('Destinacija je uspješno obrisana.');
         },
@@ -145,6 +163,4 @@ export class Destination implements OnInit {
       });
     });
   }
-
-
 }

@@ -18,12 +18,17 @@ export interface CityAddUpdate {
   providedIn: 'root'
 })
 export class CityService {
-  private apiUrl = 'http://localhost:7251/api/City';
+  private apiUrl = 'https://localhost:7251/api/City';
 
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<City[]> {
     return this.http.get<City[]>(`${this.apiUrl}/get-all`);
+  }
+
+  // 🆕 NOVI METOD
+  getByCountryId(countryId: number): Observable<City[]> {
+    return this.http.get<City[]>(`${this.apiUrl}/get-by-country/${countryId}`);
   }
 
   create(dto: CityAddUpdate): Observable<City> {

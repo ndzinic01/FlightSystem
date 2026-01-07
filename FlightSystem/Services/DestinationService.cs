@@ -65,7 +65,7 @@ namespace FlightSystem.Services
             {
                 FromAirportId = dto.FromAirportId,
                 ToAirportId = dto.ToAirportId,
-                IsActive = true
+                IsActive = dto.IsActive,
             };
 
             _db.Destinations.Add(dest);

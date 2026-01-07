@@ -17,6 +17,8 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from '@angular/common/http';
 import { Countries } from './countries/countries';
 import { Destination } from './destination/destination';
+import { AddDestinationDialog } from './destination/add-destination-dialog/add-destination-dialog';
+
 
 
 @NgModule({
@@ -33,7 +35,8 @@ import { Destination } from './destination/destination';
     Search,
     Profile,
     Countries,
-    Destination
+    Destination,
+    AddDestinationDialog,
   ],
     imports: [
         CommonModule,

@@ -9,5 +9,7 @@ namespace FlightSystem.Services.Interfaces
         Task<CityGetDTO> Create(CityAddUpdateDTO dto);
         Task<CityGetDTO?> Update(int id, CityAddUpdateDTO dto);
         Task<bool> Delete(int id);
+        Task<List<CityGetDTO>> GetByCountryId(int countryId);
+
     }
 }

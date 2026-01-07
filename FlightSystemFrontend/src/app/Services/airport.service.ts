@@ -2,21 +2,21 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-
-export interface Airport {
+export interface AirportDTO {
   id: number;
   name: string;
   cityId: number;
   cityName: string;
   isActive: boolean;
+  code: string;
 }
 
 export interface AirportAddUpdate {
   name: string;
   cityId: number;
   isActive: boolean;
+  code: string;
 }
-
 
 @Injectable({
   providedIn: 'root',
@@ -26,20 +26,25 @@ export class AirportService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<Airport[]> {
-    return this.http.get<Airport[]>(`${this.baseUrl}/get-all`);
+  getAll(): Observable<AirportDTO[]> {
+    return this.http.get<AirportDTO[]>(`${this.baseUrl}/get-all`);
   }
 
-  getById(id: number): Observable<Airport> {
-    return this.http.get<Airport>(`${this.baseUrl}/get-by-id/${id}`);
+  // 🆕 NOVI METOD
+  getByCityId(cityId: number): Observable<AirportDTO[]> {
+    return this.http.get<AirportDTO[]>(`${this.baseUrl}/get-by-city/${cityId}`);
   }
 
-  create(airport: AirportAddUpdate): Observable<Airport> {
-    return this.http.post<Airport>(`${this.baseUrl}/create`, airport);
+  getById(id: number): Observable<AirportDTO> {
+    return this.http.get<AirportDTO>(`${this.baseUrl}/get-by-id/${id}`);
   }
 
-  update(id: number, airport: AirportAddUpdate): Observable<Airport> {
-    return this.http.put<Airport>(`${this.baseUrl}/update/${id}`, airport);
+  create(airport: AirportAddUpdate): Observable<AirportDTO> {
+    return this.http.post<AirportDTO>(`${this.baseUrl}/create`, airport);
+  }
+
+  update(id: number, airport: AirportAddUpdate): Observable<AirportDTO> {
+    return this.http.put<AirportDTO>(`${this.baseUrl}/update/${id}`, airport);
   }
 
   delete(id: number): Observable<any> {

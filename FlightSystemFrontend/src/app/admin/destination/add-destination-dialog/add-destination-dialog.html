@@ -1,0 +1,103 @@
+<div class="dialog-container">
+  <h2 class="dialog-title">Dodaj novu destinaciju</h2>
+
+  <div class="dialog-content">
+    <!-- POLAZAK -->
+    <div class="section">
+      <h3 class="section-label">Polazak:</h3>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label>Država</label>
+          <select [(ngModel)]="selectedFromCountryId" (ngModelChange)="onFromCountryChange()">
+            <option [ngValue]="null">Država</option>
+            <option *ngFor="let c of fromCountries" [ngValue]="c.id">
+              {{ c.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label>Grad</label>
+          <select
+            [(ngModel)]="selectedFromCityId"
+            (ngModelChange)="onFromCityChange()"
+            [disabled]="!selectedFromCountryId">
+            <option [ngValue]="null">Grad</option>
+            <option *ngFor="let city of fromCities" [ngValue]="city.id">
+              {{ city.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label>Aerodrom</label>
+          <select
+            [(ngModel)]="selectedFromAirportId"
+            [disabled]="!selectedFromCityId">
+            <option [ngValue]="null">Aerodrom</option>
+            <option *ngFor="let a of fromAirports" [ngValue]="a.id">
+              {{ a.code }} - {{ a.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- DOLAZAK -->
+    <div class="section">
+      <h3 class="section-label">Dolazak:</h3>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label>Država</label>
+          <select [(ngModel)]="selectedToCountryId" (ngModelChange)="onToCountryChange()">
+            <option [ngValue]="null">Država</option>
+            <option *ngFor="let c of toCountries" [ngValue]="c.id">
+              {{ c.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label>Grad</label>
+          <select
+            [(ngModel)]="selectedToCityId"
+            (ngModelChange)="onToCityChange()"
+            [disabled]="!selectedToCountryId">
+            <option [ngValue]="null">Grad</option>
+            <option *ngFor="let city of toCities" [ngValue]="city.id">
+              {{ city.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label>Aerodrom</label>
+          <select
+            [(ngModel)]="selectedToAirportId"
+            [disabled]="!selectedToCityId">
+            <option [ngValue]="null">Aerodrom</option>
+            <option *ngFor="let a of toAirports" [ngValue]="a.id">
+              {{ a.code }} - {{ a.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- STATUS CHECKBOX -->
+    <div class="status-row">
+      <label class="checkbox-label">
+        <input type="checkbox" [(ngModel)]="isActive" />
+        <span>Status:</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- DIALOG ACTIONS -->
+  <div class="dialog-actions">
+    <button class="btn btn-cancel" (click)="cancel()">Odustani</button>
+    <button class="btn btn-save" (click)="save()">Dodaj</button>
+  </div>
+</div>

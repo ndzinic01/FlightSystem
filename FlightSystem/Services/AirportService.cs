@@ -24,7 +24,8 @@ namespace FlightSystem.Services
                     Name = a.Name,
                     CityId = a.CityId,
                     CityName = a.City.Name,
-                    IsActive = a.IsActive
+                    IsActive = a.IsActive,
+                    Code = a.Code,
                 })
                 .ToListAsync();
         }
@@ -40,7 +41,8 @@ namespace FlightSystem.Services
                     Name = a.Name,
                     CityId = a.CityId,
                     CityName = a.City.Name,
-                    IsActive = a.IsActive
+                    IsActive = a.IsActive,
+                    Code = a.Code,
                 })
                 .FirstOrDefaultAsync();
         }
@@ -51,7 +53,8 @@ namespace FlightSystem.Services
             {
                 Name = dto.Name,
                 CityId = dto.CityId,
-                IsActive = dto.IsActive
+                IsActive = dto.IsActive,
+                Code = dto.Code,
             };
 
             _db.Airports.Add(airport);
@@ -65,7 +68,8 @@ namespace FlightSystem.Services
                 Name = airport.Name,
                 CityId = airport.CityId,
                 CityName = city?.Name ?? "",
-                IsActive = airport.IsActive
+                IsActive = airport.IsActive,
+                Code = airport.Code,
             };
         }
 
@@ -79,6 +83,7 @@ namespace FlightSystem.Services
             airport.Name = dto.Name;
             airport.CityId = dto.CityId;
             airport.IsActive = dto.IsActive;
+            airport.Code  = dto.Code;
 
             await _db.SaveChangesAsync();
 
@@ -90,7 +95,9 @@ namespace FlightSystem.Services
                 Name = airport.Name,
                 CityId = airport.CityId,
                 CityName = city?.Name ?? "",
-                IsActive = airport.IsActive
+                IsActive = airport.IsActive,
+                Code = airport.Code,
+               
             };
         }
 
@@ -103,6 +110,23 @@ namespace FlightSystem.Services
             _db.Airports.Remove(airport);
             await _db.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<List<AirportGetDTO>> GetByCityId(int cityId)
+        {
+            return await _db.Airports
+                .Include(a => a.City)
+                .Where(a => a.CityId == cityId && a.IsActive) // Samo aktivni aerodomi
+                .Select(a => new AirportGetDTO
+                {
+                    Id = a.Id,
+                    Name = a.Name,
+                    CityId = a.CityId,
+                    CityName = a.City.Name,
+                    IsActive = a.IsActive,
+                    Code = a.Code,
+                })
+                .ToListAsync();
         }
     }
 }

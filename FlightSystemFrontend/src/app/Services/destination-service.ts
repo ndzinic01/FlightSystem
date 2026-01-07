@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {Observable} from 'rxjs';
-import {HttpClient} from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 export interface DestinationDTO {
   id: number;
@@ -11,6 +11,11 @@ export interface DestinationDTO {
   isActive: boolean;
 }
 
+export interface DestinationAddDTO {
+  fromAirportId: number;
+  toAirportId: number;
+  isActive: boolean;
+}
 
 export interface DestinationUpdateDTO {
   id: number;
@@ -29,18 +34,15 @@ export class DestinationService {
     return this.http.get<DestinationDTO[]>(this.apiUrl);
   }
 
-  delete(id: number) {
+  delete(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
 
-  toggleStatus(dto: { id: number; isActive: boolean }) {
-    return this.http.put<{ id: number; isActive: boolean }>(`${this.apiUrl}/toggle-active`, dto);
+  toggleStatus(dto: DestinationUpdateDTO): Observable<DestinationUpdateDTO> {
+    return this.http.put<DestinationUpdateDTO>(`${this.apiUrl}/toggle-active`, dto);
   }
 
-  getByDestination(destinationId: number) {
-    return this.http.get<any[]>(
-      `${this.apiUrl}/Flight/by-destination/${destinationId}`
-    );
+  create(dto: DestinationAddDTO): Observable<DestinationDTO> {
+    return this.http.post<DestinationDTO>(this.apiUrl, dto);
   }
-
 }
