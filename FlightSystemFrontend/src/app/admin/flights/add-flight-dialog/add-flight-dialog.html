@@ -4,14 +4,7 @@
   <div class="dialog-content">
     <!-- Vrsta leta -->
     <div class="form-row">
-      <div class="form-field full-width">
-        <label>Vrsta leta:</label>
-        <select [(ngModel)]="selectedFlightType">
-          <option *ngFor="let type of flightTypes" [value]="type">
-            {{ type }}
-          </option>
-        </select>
-      </div>
+
     </div>
 
     <!-- Destinacija -->
@@ -62,23 +55,20 @@
 
     <!-- Avion (opciono) -->
     <div class="form-row">
-      <div class="form-field full-width">
-        <label>Avion (opciono):</label>
-        <select [(ngModel)]="selectedAircraftId">
-          <option [ngValue]="null">Odaberite avion</option>
-          <option *ngFor="let aircraft of aircrafts" [ngValue]="aircraft.id">
-            {{ aircraft.manufacturer }} {{ aircraft.model }}
-          </option>
-        </select>
-      </div>
-    </div>
+      <!-- Broj mjesta -->
+      <select [(ngModel)]="selectedAircraftId" (change)="onAircraftChange()">
+        <option [ngValue]="null">-- Odaberite avion --</option>
+        <option *ngFor="let a of aircrafts" [ngValue]="a.id">
+          {{ a.model }}
+        </option>
+      </select>
 
-    <!-- Broj mjesta -->
-    <div class="form-row">
-      <div class="form-field full-width">
-        <label>Broj mjesta:</label>
-        <input type="number" [(ngModel)]="availableSeats" placeholder="npr. 180" min="1" />
-      </div>
+      <input
+        type="number"
+        [value]="selectedAircraftCapacity"
+        readonly
+        placeholder="Kapacitet aviona"
+      />
     </div>
 
     <!-- Cijena -->
@@ -97,15 +87,6 @@
       </div>
     </div>
 
-    <!-- Status checkbox -->
-    <div class="form-row">
-      <div class="checkbox-wrapper">
-        <label class="checkbox-label">
-          <input type="checkbox" [(ngModel)]="isActive" />
-          <span>Status:</span>
-        </label>
-      </div>
-    </div>
   </div>
 
   <!-- Dialog Actions -->

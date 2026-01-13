@@ -39,9 +39,13 @@ export class Flights implements OnInit {
         this.loading = false;
         this.cd.detectChanges();
       },
-      error: () => {
-        this.loading = false;
-        this.snack.error('Greška prilikom učitavanja letova.');
+      error: (err) => {
+        console.error('Create flight error:', err);
+        this.snack.error(
+          err?.error?.message ||
+          err?.error ||
+          'Greška prilikom dodavanja leta.'
+        );
       }
     });
   }
@@ -102,10 +106,6 @@ export class Flights implements OnInit {
         }
       });
     });
-  }
-
-  editFlight(flight: FlightDTO) {
-    //this.snack.info('Edit flight dialog - TODO');
   }
 
   deleteFlight(id: number) {

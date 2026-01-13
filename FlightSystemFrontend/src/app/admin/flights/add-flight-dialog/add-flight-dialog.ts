@@ -3,6 +3,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { DestinationService, DestinationDTO } from '../../../Services/destination-service';
 import { AirlineService, AirlineDTO} from '../../../Services/airline-service';
 import { AircraftService, AircraftDTO} from '../../../Services/aircraft.service';
+import { SnackbarService } from '../../../Services/Notifications/snackbar-service';
 
 @Component({
   selector: 'app-add-flight-dialog',
@@ -11,30 +12,29 @@ import { AircraftService, AircraftDTO} from '../../../Services/aircraft.service'
   styleUrls: ['./add-flight-dialog.css']
 })
 export class AddFlightDialog implements OnInit {
-  // Dropdown liste
-  flightTypes: string[] = ['Direktan', 'Sa presjedanjem'];
   destinations: DestinationDTO[] = [];
   airlines: AirlineDTO[] = [];
   aircrafts: AircraftDTO[] = [];
 
-  // Form data
-  selectedFlightType = 'Direktan';
   selectedDestinationId: number | null = null;
-  departureDate: string = '';
-  departureTime: string = '00:00';
-  arrivalTime: string = '00:00';
   selectedAirlineId: number | null = null;
   selectedAircraftId: number | null = null;
+  selectedAircraftCapacity: number | null = null;
+
+  departureDate = '';
+  departureTime = '00:00';
+  arrivalTime = '00:00';
+
   flightCode = '';
   price: number | null = null;
   availableSeats: number | null = null;
-  isActive = true;
 
   constructor(
     private dialogRef: MatDialogRef<AddFlightDialog>,
     private destinationService: DestinationService,
     private airlineService: AirlineService,
     private aircraftService: AircraftService,
+    private snack: SnackbarService,
     private cd: ChangeDetectorRef
   ) {}
 
@@ -46,78 +46,78 @@ export class AddFlightDialog implements OnInit {
 
   loadDestinations() {
     this.destinationService.getAll().subscribe({
-      next: (data) => {
+      next: data => {
         this.destinations = data;
         this.cd.detectChanges();
       },
-      error: (err) => console.error('Greška pri učitavanju destinacija:', err)
+      error: () => this.snack.error('Greška pri učitavanju destinacija.')
     });
   }
 
   loadAirlines() {
     this.airlineService.getAll().subscribe({
-      next: (data) => {
+      next: data => {
         this.airlines = data;
         this.cd.detectChanges();
       },
-      error: (err) => console.error('Greška pri učitavanju aviokompanija:', err)
+      error: () => this.snack.error('Greška pri učitavanju aviokompanija.')
     });
   }
 
   loadAircrafts() {
     this.aircraftService.getAll().subscribe({
-      next: (data) => {
-        // Filtriraj samo aktivne avione
+      next: data => {
         this.aircrafts = data.filter(a => a.status);
         this.cd.detectChanges();
       },
-      error: (err) => console.error('Greška pri učitavanju aviona:', err)
+      error: () => this.snack.error('Greška pri učitavanju aviona.')
     });
   }
 
   save() {
-    // Validacija
     if (!this.selectedDestinationId) {
-      alert('Molimo odaberite destinaciju.');
+      this.snack.error('Molimo odaberite destinaciju.');
       return;
     }
 
     if (!this.departureDate) {
-      alert('Molimo unesite datum leta.');
+      this.snack.error('Molimo unesite datum leta.');
       return;
     }
 
     if (!this.selectedAirlineId) {
-      alert('Molimo odaberite aviokompaniju.');
+      this.snack.error('Molimo odaberite aviokompaniju.');
       return;
     }
 
-    if (!this.flightCode || !this.price || !this.availableSeats) {
-      alert('Molimo popunite sva obavezna polja.');
+    if (!this.selectedAircraftId) {
+      this.snack.error('Molimo odaberite avion.');
       return;
     }
 
-    // Kombinuj datum i vrijeme
+    if (!this.flightCode || this.price == null) {
+      this.snack.error('Molimo popunite sva obavezna polja.');
+      return;
+    }
+
     const departureDateTime = `${this.departureDate}T${this.departureTime}:00`;
     const arrivalDateTime = `${this.departureDate}T${this.arrivalTime}:00`;
 
-    // Provjeri da li je vrijeme dolaska nakon polaska
     if (new Date(arrivalDateTime) <= new Date(departureDateTime)) {
-      alert('Vrijeme dolaska mora biti nakon vremena polaska.');
+      this.snack.error('Vrijeme dolaska mora biti nakon vremena polaska.');
       return;
     }
 
-    // Kreiraj DTO
     const flightData = {
       code: this.flightCode,
       destinationId: this.selectedDestinationId,
       airlineId: this.selectedAirlineId,
-      aircraftId: this.selectedAircraftId || this.aircrafts[0]?.id || 1, // Prvi avion ako nije odabran
+      aircraftId: this.selectedAircraftId,
       departureTime: departureDateTime,
       arrivalTime: arrivalDateTime,
-      status: this.isActive ? 0 : 3, // 0 = Scheduled, 3 = Cancelled
+      status: 0, // Scheduled
       price: this.price,
-      availableSeats: this.availableSeats
+      availableSeats: this.selectedAircraftCapacity
     };
 
     this.dialogRef.close(flightData);
@@ -125,6 +125,15 @@ export class AddFlightDialog implements OnInit {
 
   cancel() {
     this.dialogRef.close();
+  }
+  onAircraftChange() {
+    const aircraft = this.aircrafts.find(
+      a => a.id === this.selectedAircraftId
+    );
+
+    this.selectedAircraftCapacity = aircraft
+      ? aircraft.capacity
+      : null;
   }
 }
 
