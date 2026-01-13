@@ -18,6 +18,7 @@ import {HttpClientModule} from '@angular/common/http';
 import { Countries } from './countries/countries';
 import { Destination } from './destination/destination';
 import { AddDestinationDialog } from './destination/add-destination-dialog/add-destination-dialog';
+import { AddFlightDialog } from './flights/add-flight-dialog/add-flight-dialog';
 
 
 
@@ -37,6 +38,7 @@ import { AddDestinationDialog } from './destination/add-destination-dialog/add-d
     Countries,
     Destination,
     AddDestinationDialog,
+    AddFlightDialog,
   ],
     imports: [
         CommonModule,

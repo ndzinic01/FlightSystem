@@ -3,6 +3,7 @@ import { FlightService, FlightDTO } from '../../Services/flight-service';
 import { MatDialog } from '@angular/material/dialog';
 import { SnackbarService } from '../../Services/Notifications/snackbar-service';
 import { ConfirmDialog } from '../../Shared/confirm-dialog/confirm-dialog';
+import {AddFlightDialog} from './add-flight-dialog/add-flight-dialog';
 
 @Component({
   selector: 'app-flights',
@@ -81,11 +82,30 @@ export class Flights implements OnInit {
   }
 
   openAddDialog() {
-    //this.snack.info('Add flight dialog - TODO');
+    const dialogRef = this.dialog.open(AddFlightDialog, {
+      width: '550px',
+      maxWidth: '90vw',
+      disableClose: true,
+      autoFocus: false
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (!result) return;
+
+      this.flightService.create(result).subscribe({
+        next: () => {
+          this.snack.success('Let je uspješno dodan.');
+          this.loadFlights();
+        },
+        error: () => {
+          this.snack.error('Greška prilikom dodavanja leta.');
+        }
+      });
+    });
   }
 
   editFlight(flight: FlightDTO) {
-   // this.snack.info('Edit flight dialog - TODO');
+    //this.snack.info('Edit flight dialog - TODO');
   }
 
   deleteFlight(id: number) {
@@ -112,8 +132,28 @@ export class Flights implements OnInit {
     });
   }
 
-  // 🔥 PREVOD STATUSA na bosanski
-  getStatusLabel(status: string): string {
+  // 🔥 MAPIRANJE ENUM BROJA NA BOSANSKI STRING
+  getStatusLabel(status: number | string): string {
+    // Ako je već string, vrati ga
+    if (typeof status === 'string') {
+      return this.translateStatus(status);
+    }
+
+    // Mapiranje broja na enum naziv
+    const statusMap: Record<number, string> = {
+      0: 'Scheduled',
+      1: 'Boarding',
+      2: 'Delayed',
+      3: 'Cancelled',
+      4: 'Completed'
+    };
+
+    const statusName = statusMap[status] || 'Scheduled';
+    return this.translateStatus(statusName);
+  }
+
+  // 🔥 PREVOD NA BOSANSKI
+  private translateStatus(status: string): string {
     const translations: Record<string, string> = {
       'Scheduled': 'Aktivan',
       'Boarding': 'Ukrcavanje',
@@ -124,8 +164,21 @@ export class Flights implements OnInit {
     return translations[status] || status;
   }
 
-  // 🔥 CSS klasa za status
-  getStatusClass(status: string): string {
+  // 🔥 CSS KLASA
+  getStatusClass(status: number | string): string {
+    // Ako je broj, konvertuj u string
+    if (typeof status === 'number') {
+      const statusMap: Record<number, string> = {
+        0: 'scheduled',
+        1: 'boarding',
+        2: 'delayed',
+        3: 'cancelled',
+        4: 'completed'
+      };
+      return statusMap[status] || 'scheduled';
+    }
+
+    // Ako je string, lowercase
     return status.toLowerCase();
   }
 

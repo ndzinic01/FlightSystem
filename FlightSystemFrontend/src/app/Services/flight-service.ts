@@ -2,15 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-// 🔥 STRING enum za lakše rukovanje
-export enum FlightStatus {
-  Scheduled = 'Scheduled',
-  Boarding = 'Boarding',
-  Delayed = 'Delayed',
-  Cancelled = 'Cancelled',
-  Completed = 'Completed'
-}
-
 export interface FlightDTO {
   id: number;
   code: string;
@@ -19,7 +10,7 @@ export interface FlightDTO {
   aircraft: string;
   departureTime: string;
   arrivalTime: string;
-  status: string; // 🔥 STRING umjesto enuma
+  status: number | string; // 🔥 Može biti i broj i string
   price: number;
   availableSeats: number;
 }
@@ -31,7 +22,7 @@ export interface FlightCreateDTO {
   aircraftId: number;
   departureTime: string;
   arrivalTime: string;
-  status: string;
+  status: number; // 🔥 Backend prima broj (enum)
   price: number;
   availableSeats: number;
 }
@@ -43,7 +34,7 @@ export interface FlightUpdateDTO {
   aircraftId: number;
   departureTime: string;
   arrivalTime: string;
-  status: string;
+  status: number; // 🔥 Backend prima broj (enum)
   price: number;
   availableSeats: number;
 }

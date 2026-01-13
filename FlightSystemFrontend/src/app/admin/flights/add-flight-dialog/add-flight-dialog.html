@@ -1,0 +1,116 @@
+<div class="dialog-container">
+  <h2 class="dialog-title">Dodaj novi let</h2>
+
+  <div class="dialog-content">
+    <!-- Vrsta leta -->
+    <div class="form-row">
+      <div class="form-field full-width">
+        <label>Vrsta leta:</label>
+        <select [(ngModel)]="selectedFlightType">
+          <option *ngFor="let type of flightTypes" [value]="type">
+            {{ type }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Destinacija -->
+    <div class="form-row">
+      <div class="form-field full-width">
+        <label>Destinacija:</label>
+        <select [(ngModel)]="selectedDestinationId">
+          <option [ngValue]="null">Odaberite destinaciju</option>
+          <option *ngFor="let dest of destinations" [ngValue]="dest.id">
+            {{ dest.fromCity }} → {{ dest.toCity }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Datum leta -->
+    <div class="form-row">
+      <div class="form-field full-width">
+        <label>Datum leta:</label>
+        <input type="date" [(ngModel)]="departureDate" />
+      </div>
+    </div>
+
+    <!-- Vrijeme polaska i dolaska -->
+    <div class="form-row two-columns">
+      <div class="form-field">
+        <label>Vrijeme polaska:</label>
+        <input type="time" [(ngModel)]="departureTime" />
+      </div>
+      <div class="form-field">
+        <label>Vrijeme dolaska:</label>
+        <input type="time" [(ngModel)]="arrivalTime" />
+      </div>
+    </div>
+
+    <!-- Aviokompanija -->
+    <div class="form-row">
+      <div class="form-field full-width">
+        <label>Aviokompanija:</label>
+        <select [(ngModel)]="selectedAirlineId">
+          <option [ngValue]="null">Odaberite aviokompaniju</option>
+          <option *ngFor="let airline of airlines" [ngValue]="airline.id">
+            {{ airline.name }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Avion (opciono) -->
+    <div class="form-row">
+      <div class="form-field full-width">
+        <label>Avion (opciono):</label>
+        <select [(ngModel)]="selectedAircraftId">
+          <option [ngValue]="null">Odaberite avion</option>
+          <option *ngFor="let aircraft of aircrafts" [ngValue]="aircraft.id">
+            {{ aircraft.manufacturer }} {{ aircraft.model }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Broj mjesta -->
+    <div class="form-row">
+      <div class="form-field full-width">
+        <label>Broj mjesta:</label>
+        <input type="number" [(ngModel)]="availableSeats" placeholder="npr. 180" min="1" />
+      </div>
+    </div>
+
+    <!-- Cijena -->
+    <div class="form-row">
+      <div class="form-field full-width">
+        <label>Cijena:</label>
+        <input type="number" [(ngModel)]="price" placeholder="npr. 125" min="0" step="0.01" />
+      </div>
+    </div>
+
+    <!-- Kod leta -->
+    <div class="form-row">
+      <div class="form-field full-width">
+        <label>Kod leta:</label>
+        <input type="text" [(ngModel)]="flightCode" placeholder="npr. AX1239" />
+      </div>
+    </div>
+
+    <!-- Status checkbox -->
+    <div class="form-row">
+      <div class="checkbox-wrapper">
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="isActive" />
+          <span>Status:</span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dialog Actions -->
+  <div class="dialog-actions">
+    <button class="btn btn-cancel" (click)="cancel()">Odustani</button>
+    <button class="btn btn-save" (click)="save()">Dodaj</button>
+  </div>
+</div>

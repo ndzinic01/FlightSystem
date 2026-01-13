@@ -1,5 +1,5 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
-import { AircraftService, AircraftGetDTO, AircraftAddUpdateDTO } from '../../Services/aircraft.service';
+import { AircraftService, AircraftDTO, AircraftAddUpdateDTO } from '../../Services/aircraft.service';
 
 @Component({
   selector: 'app-aircraft',
@@ -9,7 +9,7 @@ import { AircraftService, AircraftGetDTO, AircraftAddUpdateDTO } from '../../Ser
 })
 
 export class Aircraft {
-  aircrafts: AircraftGetDTO[] = [];
+  aircrafts: AircraftDTO[] = [];
   loading: boolean = false;
   showModal: boolean = false;
   isEditMode: boolean = false;
@@ -67,7 +67,7 @@ export class Aircraft {
     this.showModal = true;
   }
 
-  openEditModal(aircraft: AircraftGetDTO): void {
+  openEditModal(aircraft: AircraftDTO): void {
     this.isEditMode = true;
     this.selectedAircraftId = aircraft.id;
     this.formData = {

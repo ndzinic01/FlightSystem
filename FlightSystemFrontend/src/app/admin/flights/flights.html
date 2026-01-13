@@ -1,8 +1,8 @@
 <div class="flights-header">
   <div class="title-row">
     <h2>✈️ Letovi</h2>
-<!--    (click)="openAddDialog()"-->
-    <button class="btn-add" >
+
+    <button class="btn-add" (click)="openAddDialog()" >
       + Dodaj let
     </button>
   </div>
@@ -92,9 +92,10 @@
 
     <!-- Status -->
     <!-- Status -->
+    <!-- Status kolona u tabeli -->
     <td>
   <span class="status-badge" [ngClass]="getStatusClass(flight.status)">
-    {{ flight.status }}
+    {{ getStatusLabel(flight.status) }}
   </span>
     </td>
 

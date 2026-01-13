@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
-export interface AircraftGetDTO {
+export interface AircraftDTO {
   id: number;
   model: string;
   registrationNumber: string;
@@ -22,28 +22,27 @@ export interface AircraftAddUpdateDTO {
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AircraftService {
-
-  private apiUrl = 'https://localhost:7251/api/Aircraft'; // prilagodi tvoj URL
+  private apiUrl = 'https://localhost:7251/api/Aircraft';
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<AircraftGetDTO[]> {
-    return this.http.get<AircraftGetDTO[]>(`${this.apiUrl}/get-all`);
+  getAll(): Observable<AircraftDTO[]> {
+    return this.http.get<AircraftDTO[]>(`${this.apiUrl}/get-all`);
   }
 
-  getById(id: number): Observable<AircraftGetDTO> {
-    return this.http.get<AircraftGetDTO>(`${this.apiUrl}/get-by-id/${id}`);
+  getById(id: number): Observable<AircraftDTO> {
+    return this.http.get<AircraftDTO>(`${this.apiUrl}/get-by-id/${id}`);
   }
 
-  create(aircraft: AircraftAddUpdateDTO): Observable<AircraftGetDTO> {
-    return this.http.post<AircraftGetDTO>(`${this.apiUrl}/create`, aircraft);
+  create(dto: AircraftAddUpdateDTO): Observable<AircraftDTO> {
+    return this.http.post<AircraftDTO>(`${this.apiUrl}/create`, dto);
   }
 
-  update(id: number, aircraft: AircraftAddUpdateDTO): Observable<AircraftGetDTO> {
-    return this.http.put<AircraftGetDTO>(`${this.apiUrl}/update/${id}`, aircraft);
+  update(id: number, dto: AircraftAddUpdateDTO): Observable<AircraftDTO> {
+    return this.http.put<AircraftDTO>(`${this.apiUrl}/update/${id}`, dto);
   }
 
   delete(id: number): Observable<any> {
