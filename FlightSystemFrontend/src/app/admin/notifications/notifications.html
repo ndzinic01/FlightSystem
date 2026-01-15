@@ -1,1 +1,64 @@
-<p>notifications works!</p>
+<div class="page">
+
+  <h2 class="title">
+    🔔 Notifikacije
+  </h2>
+
+  <div class="filters">
+    <select>
+      <option>Korisnički upiti</option>
+    </select>
+
+    <input
+      placeholder="Pretraži po korisniku"
+      [(ngModel)]="userSearch"
+      (input)="applyFilters()"
+    />
+
+    <input
+      placeholder="Pretraži po statusu"
+      [(ngModel)]="statusSearch"
+      (input)="applyFilters()"
+    />
+
+    <input
+      type="date"
+      [(ngModel)]="dateSearch"
+      (change)="applyFilters()"
+    />
+  </div>
+
+  <table>
+    <thead>
+    <tr>
+      <th>Korisnik</th>
+      <th>Email</th>
+      <th>Tema</th>
+      <th>Datum</th>
+      <th>Status</th>
+      <th>Akcija</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr *ngFor="let n of filtered">
+      <td>{{ n.userFullName }}</td>
+      <td>{{n.userEmail}}</td>
+      <td>{{ n.message }}</td>
+      <td>{{ n.sentAt | date:'dd/MM/yyyy' }}</td>
+      <td>{{ statusLabel(n) }}</td>
+      <td>
+        <span class="badge-new" *ngIf="!n.isRead">Novo</span>
+
+        <a *ngIf="!n.isRead" (click)="openDialog(n)">Odgovori</a>
+        <a *ngIf="n.isRead" (click)="openDialog(n)">Pregled</a>
+      </td>
+
+
+
+    </tr>
+    </tbody>
+  </table>
+
+</div>
+

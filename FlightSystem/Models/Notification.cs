@@ -16,6 +16,8 @@ namespace FlightSystem.Models
         public string Message { get; set; }
         public DateTime SentAt { get; set; } = DateTime.UtcNow;
         public bool IsRead { get; set; } = false;
+        public string? AdminReply { get; set; }
+        public DateTime? RepliedAt { get; set; }
 
     }
 }

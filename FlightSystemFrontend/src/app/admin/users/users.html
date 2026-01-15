@@ -1,1 +1,51 @@
-<p>users works!</p>
+<div class="users-header">
+  <h2>👥 Upravljanje korisnicima</h2>
+
+  <input
+    type="text"
+    placeholder="Pretraži korisnike"
+    [(ngModel)]="searchTerm"
+    (input)="applyFilter()"
+  />
+</div>
+
+<table class="users-table">
+  <thead>
+  <tr>
+    <th>Korisnik</th>
+    <th>Email</th>
+    <th>Status</th>
+    <th>Uloga</th>
+    <th></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <tr *ngFor="let u of filteredUsers">
+    <td>{{ u.fullName }}</td>
+    <td>{{ u.email }}</td>
+
+    <td>
+      <select
+        [value]="u.isActive"
+        (change)="updateStatus(u, $any($event.target).value === 'true')">
+        <option value="true">Aktivan</option>
+        <option value="false">Neaktivan</option>
+      </select>
+    </td>
+
+    <td>
+      <select
+        [value]="u.role"
+        (change)="updateRole(u, $any($event.target).value)">
+        <option value="Admin">Admin</option>
+        <option value="Customer">Korisnik</option>
+      </select>
+    </td>
+
+    <td>
+      <button class="delete-btn" (click)="deleteUser(u)">🗑</button>
+    </td>
+  </tr>
+  </tbody>
+</table>

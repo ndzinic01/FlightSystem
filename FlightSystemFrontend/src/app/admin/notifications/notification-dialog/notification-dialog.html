@@ -1,0 +1,28 @@
+<h2>{{ data.isRead ? 'Pregled poruke' : 'Odgovor korisniku' }}</h2>
+
+<p><b>Korisnik:</b> {{ data.userFullName }}</p>
+<p><b>Poruka:</b> {{ data.message }}</p>
+
+<textarea
+  *ngIf="!data.isRead"
+  [(ngModel)]="replyText"
+  placeholder="Unesite odgovor..."
+></textarea>
+
+<p *ngIf="data.isRead">
+  <b>Odgovor:</b> {{ data.adminReply }}
+</p>
+
+<div class="dialog-actions">
+  <button mat-button (click)="dialogRef.close()">Zatvori</button>
+
+  <button
+    *ngIf="!data.isRead"
+    mat-raised-button
+    color="primary"
+    (click)="sendReply()"
+  >
+    Pošalji
+  </button>
+</div>
+

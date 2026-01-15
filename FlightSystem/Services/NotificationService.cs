@@ -24,11 +24,13 @@ namespace FlightSystem.Services
                     Id = n.Id,
                     UserId = n.UserId,
                     UserFullName = n.User.FirstName + " " + n.User.LastName,
+                    UserEmail = n.User.Email,
                     FlightId = n.FlightId,
                     FlightCode = n.Flight.Code,
                     Message = n.Message,
                     SentAt = n.SentAt,
-                    IsRead = n.IsRead
+                    IsRead = n.IsRead,
+                    AdminReply = n.AdminReply,
                 })
                 .ToListAsync();
         }
@@ -44,11 +46,13 @@ namespace FlightSystem.Services
                     Id = n.Id,
                     UserId = n.UserId,
                     UserFullName = n.User.FirstName + " " + n.User.LastName,
+                    UserEmail = n.User.Email,
                     FlightId = n.FlightId,
                     FlightCode = n.Flight.Code,
                     Message = n.Message,
                     SentAt = n.SentAt,
-                    IsRead = n.IsRead
+                    IsRead = n.IsRead,
+                    AdminReply = n.AdminReply,
                 })
                 .ToListAsync();
         }
@@ -67,11 +71,13 @@ namespace FlightSystem.Services
                 Id = n.Id,
                 UserId = n.UserId,
                 UserFullName = n.User.FirstName + " " + n.User.LastName,
+                UserEmail = n.User.Email,
                 FlightId = n.FlightId,
                 FlightCode = n.Flight.Code,
                 Message = n.Message,
                 SentAt = n.SentAt,
-                IsRead = n.IsRead
+                IsRead = n.IsRead,
+                AdminReply = n.AdminReply,
             };
         }
 
@@ -84,6 +90,7 @@ namespace FlightSystem.Services
                 Message = dto.Message,
                 SentAt = DateTime.UtcNow,
                 IsRead = false
+
             };
 
             _db.Notifications.Add(n);
@@ -97,11 +104,13 @@ namespace FlightSystem.Services
                 Id = n.Id,
                 UserId = dto.UserId,
                 UserFullName = $"{user?.FirstName} {user?.LastName}",
+                UserEmail = $"{user?.Email}",
                 FlightId = dto.FlightId,
                 FlightCode = flight?.Code ?? "",
                 Message = dto.Message,
                 SentAt = n.SentAt,
-                IsRead = false
+                IsRead = false,
+                AdminReply = n.AdminReply,
             };
         }
 
@@ -122,11 +131,13 @@ namespace FlightSystem.Services
                 Id = n.Id,
                 UserId = n.UserId,
                 UserFullName = $"{user?.FirstName} {user?.LastName}",
+                UserEmail = $"{user?.Email}",
                 FlightId = n.FlightId,
                 FlightCode = flight?.Code ?? "",
                 Message = n.Message,
                 SentAt = n.SentAt,
-                IsRead = n.IsRead
+                IsRead = n.IsRead,
+                AdminReply = n.AdminReply,
             };
         }
 
@@ -140,6 +151,21 @@ namespace FlightSystem.Services
 
             return true;
         }
+        public async Task<NotificationGetDTO?> ReplyAsync(NotificationReplyDTO dto)
+        {
+            var n = await _db.Notifications.FindAsync(dto.Id);
+            if (n == null) return null;
+
+            n.AdminReply = dto.Reply;
+            n.IsRead = true;
+            n.RepliedAt = DateTime.UtcNow;
+
+            await _db.SaveChangesAsync();
+
+            return await GetByIdAsync(n.Id);
+        }
+
+
     }
 }
 

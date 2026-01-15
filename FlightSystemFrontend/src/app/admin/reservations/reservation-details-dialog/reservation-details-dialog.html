@@ -1,0 +1,82 @@
+<div class="dialog-container">
+  <h2 class="dialog-title">Detalji rezervacije</h2>
+
+  <div class="dialog-content">
+    <!-- Korisnik info -->
+    <div class="info-row">
+      <label>Ime:</label>
+      <span>{{ data.userFullName.split(' ')[0] }}</span>
+    </div>
+
+    <div class="info-row">
+      <label>Prezime:</label>
+      <span>{{ data.userFullName.split(' ')[1] }}</span>
+    </div>
+
+    <!-- Destinacija -->
+    <div class="info-row">
+      <label>Destinacija:</label>
+      <span>{{ getFromCity() }}({{ data.flightNumber.split('→')[0]?.trim() }}) → {{ getToCity() }}({{ data.flightNumber.split('→')[1]?.trim() }})</span>
+    </div>
+
+    <!-- Datum leta -->
+    <div class="info-row">
+      <label>Flight date:</label>
+      <div class="date-picker">
+        <span>📅 {{ formatDate(data.createdAt) }}</span>
+      </div>
+    </div>
+
+    <!-- Vrsta leta -->
+    <div class="info-row">
+      <label>Vrsta leta:</label>
+      <span>Direktan</span>
+    </div>
+
+    <!-- Broj leta -->
+    <div class="info-row">
+      <label>Broj leta:</label>
+      <span>{{ data.flightNumber }}</span>
+    </div>
+
+    <!-- Sjedište -->
+    <div class="info-row">
+      <label>Sjedište:</label>
+      <span>{{ data.seatNumber }}</span>
+    </div>
+
+    <!-- Dodatni prtljag -->
+    <div class="baggage-section">
+      <label>Dodatni prtljag:</label>
+      <div class="baggage-selector">
+        <span>🧳 {{ data.additionalBaggageType || 'Ručni prtljag' }}</span>
+        <div class="baggage-controls">
+          <button class="btn-control">+</button>
+          <button class="btn-control">-</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cijena -->
+    <div class="price-section">
+      <div class="price-row">
+        <span>Cijena leta:</span>
+        <span class="price">{{ data.totalPrice }}€</span>
+      </div>
+      <div class="price-row" *ngIf="data.additionalBaggageType">
+        <span>{{ data.additionalBaggageType }}:</span>
+        <span class="price">15€</span>
+      </div>
+      <div class="price-row total">
+        <span>Ukupno:</span>
+        <span class="price-total">{{ data.totalPrice }}€</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dialog Actions -->
+  <div class="dialog-actions">
+    <button class="btn btn-cancel" (click)="close()">Odustani</button>
+    <button class="btn btn-save">Sačuvaj</button>
+  </div>
+</div>

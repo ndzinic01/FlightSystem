@@ -1,0 +1,160 @@
+.dialog-container {
+  padding: 24px;
+  width: 100%;
+  max-width: 500px;
+  box-sizing: border-box;
+}
+
+.dialog-title {
+  margin: 0 0 24px 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.dialog-content {
+  margin-bottom: 24px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.info-row label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #4a5568;
+}
+
+.info-row span {
+  font-size: 14px;
+  color: #111827;
+}
+
+.date-picker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.baggage-section {
+  padding: 16px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.baggage-section label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4a5568;
+  margin-bottom: 10px;
+}
+
+.baggage-selector {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  background: #f9fafb;
+  border-radius: 6px;
+}
+
+.baggage-selector span {
+  font-size: 14px;
+  color: #111827;
+}
+
+.baggage-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-control {
+  width: 28px;
+  height: 28px;
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #374151;
+  transition: all 0.2s;
+}
+
+.btn-control:hover {
+  background: #e5e7eb;
+}
+
+.price-section {
+  padding: 16px 0;
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  font-size: 14px;
+}
+
+.price-row span {
+  color: #4a5568;
+}
+
+.price {
+  font-weight: 600;
+  color: #111827;
+}
+
+.price-row.total {
+  margin-top: 10px;
+  padding-top: 16px;
+  border-top: 2px solid #e5e7eb;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.price-total {
+  font-size: 18px;
+  font-weight: 700;
+  color: #2563eb;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.btn {
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-cancel {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.btn-cancel:hover {
+  background: #e5e7eb;
+}
+
+.btn-save {
+  background: #3b82f6;
+  color: white;
+}
+
+.btn-save:hover {
+  background: #2563eb;
+}

@@ -1,1 +1,101 @@
-<p>reservations works!</p>
+<div class="reservations-header">
+  <div class="title-row">
+    <h2>🎫 Rezervacije</h2>
+  </div>
+
+  <div class="filters-row">
+    <!-- Destinacija filter -->
+    <div class="filter-group">
+      <input
+        type="text"
+        placeholder="Sarajevo 🔍"
+        [(ngModel)]="destinationSearchTerm"
+        (input)="onDestinationSearch()"
+        class="search-input"
+      />
+    </div>
+
+    <!-- Korisnik filter -->
+    <div class="filter-group">
+      <input
+        type="text"
+        placeholder="Pretraži po korisniku 🔍"
+        [(ngModel)]="userSearchTerm"
+        (input)="onUserSearch()"
+        class="search-input"
+      />
+    </div>
+
+    <!-- Datum OD -->
+    <div class="filter-group">
+      <input
+        type="date"
+        [(ngModel)]="dateFrom"
+        (change)="onDateFromChange($event)"
+        class="date-input"
+        placeholder="U periodu od 📅"
+      />
+    </div>
+
+    <!-- Datum DO -->
+    <div class="filter-group">
+      <input
+        type="date"
+        [(ngModel)]="dateTo"
+        (change)="onDateToChange($event)"
+        class="date-input"
+        placeholder="U periodu do 📅"
+      />
+    </div>
+  </div>
+</div>
+
+<!-- Loading -->
+<div *ngIf="loading" class="loading-container">
+  <p>Učitavanje rezervacija...</p>
+</div>
+
+<!-- Empty state -->
+<div *ngIf="!loading && filteredReservations.length === 0" class="empty-state">
+  <p>Nema rezervacija za prikaz.</p>
+</div>
+
+<!-- Tabela -->
+<table class="reservations-table" *ngIf="!loading && filteredReservations.length > 0">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Destinacija</th>
+    <th>Korisnik</th>
+    <th>Datum</th>
+    <th>Broj karata</th>
+    <th>Dodatni prtljag</th>
+    <th>Status</th>
+    <th>Detalji</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <tr *ngFor="let res of filteredReservations">
+    <td>{{ res.id }}</td>
+    <td class="destination-cell">{{ res.destination }}</td>
+    <td>{{ res.userFullName }}</td>
+    <td>{{ formatDate(res.createdAt) }}</td>
+    <td class="seat-cell">{{ res.seatNumber }}</td>
+    <td class="baggage-cell">
+        <span *ngIf="res.additionalBaggageType">
+          Dodatni prtljag (+{{ res.additionalBaggageType }})
+        </span>
+      <span *ngIf="!res.additionalBaggageType">-</span>
+    </td>
+    <td>
+        <span class="status-badge" [ngClass]="getStatusClass(res.status)">
+          {{ getStatusLabel(res.status) }}
+        </span>
+    </td>
+    <td class="details-cell">
+      <span class="icon details" (click)="openDetails(res)" title="Detalji">📋</span>
+    </td>
+  </tr>
+  </tbody>
+</table>

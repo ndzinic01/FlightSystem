@@ -54,4 +54,14 @@ public class NotificationController : ControllerBase
         if (!result) return NotFound();
         return Ok(new { message = "Deleted successfully" });
     }
+
+    [HttpPost("reply")]
+    public async Task<IActionResult> Reply(NotificationReplyDTO dto)
+    {
+        var result = await _service.ReplyAsync(dto);
+        if (result == null) return NotFound();
+        return Ok(result);
+    }
+
+
 }

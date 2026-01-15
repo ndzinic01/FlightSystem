@@ -1,4 +1,6 @@
 ﻿using FlightSystem.Models;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FlightSystem.DTOs.Reservation
 {
@@ -11,9 +13,8 @@ namespace FlightSystem.DTOs.Reservation
 
         public int FlightId { get; set; }
         public string FlightNumber { get; set; }
-
+        public string Destination { get; set; }
         public string SeatNumber { get; set; }
-
         public int? AdditionalBaggageId { get; set; }
         public string? AdditionalBaggageType { get; set; }
 

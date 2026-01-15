@@ -19,6 +19,13 @@ namespace FlightSystem.Services
             return await _db.Reservations
                 .Include(r => r.User)
                 .Include(r => r.Flight)
+                    .ThenInclude(f => f.Destination)
+                    .ThenInclude(d => d.FromAirport)
+                    .ThenInclude(a => a.City) 
+                .Include(r => r.Flight)
+                    .ThenInclude(f => f.Destination)
+                    .ThenInclude(d => d.ToAirport)
+                    .ThenInclude(a => a.City) 
                 .Include(r => r.AdditionalBaggage)
                 .Select(r => new ReservationGetDTO
                 {
@@ -27,6 +34,8 @@ namespace FlightSystem.Services
                     UserFullName = r.User.FirstName + " " + r.User.LastName,
                     FlightId = r.FlightId,
                     FlightNumber = r.Flight.Code,
+                    
+                    Destination = r.Flight.Destination.FromAirport.City.Name + " → " + r.Flight.Destination.ToAirport.City.Name,
                     SeatNumber = r.SeatNumber,
                     AdditionalBaggageId = r.AdditionalBaggageId,
                     AdditionalBaggageType = r.AdditionalBaggage != null ? r.AdditionalBaggage.Type : null,
@@ -42,6 +51,13 @@ namespace FlightSystem.Services
             var r = await _db.Reservations
                 .Include(x => x.User)
                 .Include(x => x.Flight)
+                    .ThenInclude(f => f.Destination)
+                    .ThenInclude(d => d.FromAirport)
+                    .ThenInclude(a => a.City) 
+                .Include(x => x.Flight)
+                    .ThenInclude(f => f.Destination)
+                    .ThenInclude(d => d.ToAirport)
+                    .ThenInclude(a => a.City) 
                 .Include(x => x.AdditionalBaggage)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
@@ -54,6 +70,8 @@ namespace FlightSystem.Services
                 UserFullName = r.User.FirstName + " " + r.User.LastName,
                 FlightId = r.FlightId,
                 FlightNumber = r.Flight.Code,
+                // 🔥 DODANO: Destinacija sa gradovima
+                Destination = r.Flight.Destination.FromAirport.City.Name + " → " + r.Flight.Destination.ToAirport.City.Name,
                 SeatNumber = r.SeatNumber,
                 AdditionalBaggageId = r.AdditionalBaggageId,
                 AdditionalBaggageType = r.AdditionalBaggage?.Type,

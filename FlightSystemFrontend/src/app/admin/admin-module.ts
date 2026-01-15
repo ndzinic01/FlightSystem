@@ -19,7 +19,8 @@ import { Countries } from './countries/countries';
 import { Destination } from './destination/destination';
 import { AddDestinationDialog } from './destination/add-destination-dialog/add-destination-dialog';
 import { AddFlightDialog } from './flights/add-flight-dialog/add-flight-dialog';
-
+import { ReservationDetailsDialog } from './reservations/reservation-details-dialog/reservation-details-dialog';
+import { NotificationDialog} from './notifications/notification-dialog/notification-dialog';
 
 
 @NgModule({
@@ -39,6 +40,8 @@ import { AddFlightDialog } from './flights/add-flight-dialog/add-flight-dialog';
     Destination,
     AddDestinationDialog,
     AddFlightDialog,
+    ReservationDetailsDialog,
+    NotificationDialog,
   ],
     imports: [
         CommonModule,

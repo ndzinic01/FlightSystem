@@ -74,7 +74,5 @@ public class UserController : ControllerBase
             return BadRequest(new { message = ex.Message });
         }
     }
-
-
 } 
 
