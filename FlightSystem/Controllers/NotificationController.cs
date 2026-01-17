@@ -62,6 +62,36 @@ public class NotificationController : ControllerBase
         if (result == null) return NotFound();
         return Ok(result);
     }
+    // 🔥 BROADCAST - Pošalji svim korisnicima
+    [HttpPost("broadcast")]
+    public async Task<IActionResult> Broadcast(BroadcastNotificationDTO dto)
+    {
+        var count = await _service.BroadcastToAllUsersAsync(dto);
+        return Ok(new { message = $"Notifikacija poslana na {count} korisnika." });
+    }
 
+    // 🔥 Otkazan let
+    [HttpPost("flight-cancelled/{flightId}")]
+    public async Task<IActionResult> NotifyFlightCancellation(int flightId, [FromBody] string reason)
+    {
+        var count = await _service.NotifyFlightCancellationAsync(flightId, reason);
+        return Ok(new { message = $"Notifikovano {count} korisnika o otkazivanju leta." });
+    }
+
+    // 🔥 Promjena vremena
+    [HttpPost("flight-rescheduled/{flightId}")]
+    public async Task<IActionResult> NotifyFlightReschedule(int flightId, [FromBody] DateTime newDepartureTime)
+    {
+        var count = await _service.NotifyFlightRescheduleAsync(flightId, newDepartureTime);
+        return Ok(new { message = $"Notifikovano {count} korisnika o promjeni vremena." });
+    }
+
+    // 🔥 Zakašnjenje
+    [HttpPost("flight-delayed/{flightId}")]
+    public async Task<IActionResult> NotifyFlightDelay(int flightId, [FromBody] int delayMinutes)
+    {
+        var count = await _service.NotifyFlightDelayAsync(flightId, delayMinutes);
+        return Ok(new { message = $"Notifikovano {count} korisnika o zakašnjenju." });
+    }
 
 }

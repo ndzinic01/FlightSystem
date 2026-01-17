@@ -21,6 +21,7 @@ import { AddDestinationDialog } from './destination/add-destination-dialog/add-d
 import { AddFlightDialog } from './flights/add-flight-dialog/add-flight-dialog';
 import { ReservationDetailsDialog } from './reservations/reservation-details-dialog/reservation-details-dialog';
 import { NotificationDialog} from './notifications/notification-dialog/notification-dialog';
+import { BroadcastDialog } from './notifications/broadcast-dialog/broadcast-dialog';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { NotificationDialog} from './notifications/notification-dialog/notificat
     AddFlightDialog,
     ReservationDetailsDialog,
     NotificationDialog,
+    BroadcastDialog,
   ],
     imports: [
         CommonModule,

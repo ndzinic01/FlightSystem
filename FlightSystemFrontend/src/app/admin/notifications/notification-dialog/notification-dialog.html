@@ -1,28 +1,66 @@
-<h2>{{ data.isRead ? 'Pregled poruke' : 'Odgovor korisniku' }}</h2>
+<div class="dialog-container">
+  <h2 class="dialog-title">
+    {{ data.isRead ? '📧 Pregled poruke' : '✍️ Odgovor korisniku' }}
+  </h2>
 
-<p><b>Korisnik:</b> {{ data.userFullName }}</p>
-<p><b>Poruka:</b> {{ data.message }}</p>
+  <div class="dialog-content">
+    <!-- User info -->
+    <div class="info-section">
+      <div class="info-row">
+        <label>Korisnik:</label>
+        <span>{{ data.userFullName }}</span>
+      </div>
+      <div class="info-row">
+        <label>Email:</label>
+        <span>{{ data.userEmail }}</span>
+      </div>
+      <div class="info-row">
+        <label>Let:</label>
+        <span>{{ data.flightCode }}</span>
+      </div>
+      <div class="info-row">
+        <label>Datum:</label>
+        <span>{{ data.sentAt | date: 'dd.MM.yyyy HH:mm' }}</span>
+      </div>
+    </div>
 
-<textarea
-  *ngIf="!data.isRead"
-  [(ngModel)]="replyText"
-  placeholder="Unesite odgovor..."
-></textarea>
+    <!-- Message -->
+    <div class="message-section">
+      <label>Poruka korisnika:</label>
+      <div class="message-box">{{ data.message }}</div>
+    </div>
 
-<p *ngIf="data.isRead">
-  <b>Odgovor:</b> {{ data.adminReply }}
-</p>
+    <!-- Reply textarea (ako nije odgovoreno) -->
+    <div class="reply-section" *ngIf="!data.isRead">
+      <label>Vaš odgovor:</label>
+      <textarea
+        [(ngModel)]="replyText"
+        placeholder="Unesite odgovor korisniku..."
+        rows="6"
+      ></textarea>
+    </div>
 
-<div class="dialog-actions">
-  <button mat-button (click)="dialogRef.close()">Zatvori</button>
+    <!-- Admin reply (ako je već odgovoreno) -->
+    <div class="reply-section" *ngIf="data.isRead && data.adminReply">
+      <label>Vaš odgovor:</label>
+      <div class="message-box reply-box">{{ data.adminReply }}</div>
+    </div>
+  </div>
 
-  <button
-    *ngIf="!data.isRead"
-    mat-raised-button
-    color="primary"
-    (click)="sendReply()"
-  >
-    Pošalji
-  </button>
+  <!-- Actions -->
+  <div class="dialog-actions">
+    <button class="btn btn-cancel" (click)="dialogRef.close()">
+      {{ data.isRead ? 'Zatvori' : 'Odustani' }}
+    </button>
+
+    <button
+      *ngIf="!data.isRead"
+      class="btn btn-send"
+      (click)="sendReply()"
+      [disabled]="!replyText.trim()"
+    >
+      Pošalji odgovor
+    </button>
+  </div>
 </div>
 

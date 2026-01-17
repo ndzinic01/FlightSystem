@@ -1,36 +1,102 @@
-<div class="page">
+<div class="notifications-page">
+  <!-- Header sa statistikom -->
+  <div class="page-header">
+    <div class="title-section">
+      <h2 class="page-title">🔔 Notifikacije</h2>
+      <div class="stats">
+        <span class="stat-badge">
+          Ukupno: <strong>{{ totalCount }}</strong>
+        </span>
+        <span class="stat-badge unread">
+          Nepročitano: <strong>{{ unreadCount }}</strong>
+        </span>
+        <span class="stat-badge system">
+          Sistemske: <strong>{{ systemNotificationsCount }}</strong>
+        </span>
+      </div>
+    </div>
 
-  <h2 class="title">
-    🔔 Notifikacije
-  </h2>
-
-  <div class="filters">
-    <select>
-      <option>Korisnički upiti</option>
-    </select>
-
-    <input
-      placeholder="Pretraži po korisniku"
-      [(ngModel)]="userSearch"
-      (input)="applyFilters()"
-    />
-
-    <input
-      placeholder="Pretraži po statusu"
-      [(ngModel)]="statusSearch"
-      (input)="applyFilters()"
-    />
-
-    <input
-      type="date"
-      [(ngModel)]="dateSearch"
-      (change)="applyFilters()"
-    />
+    <!-- 🔥 NOVO DUGME -->
+    <button class="btn-broadcast" (click)="openBroadcastDialog()">
+      📢 Pošalji obavijest svima
+    </button>
   </div>
 
-  <table>
+  <!-- Filteri -->
+  <div class="filters-section">
+    <!-- 🔥 TIP NOTIFIKACIJE -->
+    <div class="filter-group">
+      <label>Vrsta notifikacije:</label>
+      <select
+        [(ngModel)]="notificationType"
+        (change)="onNotificationTypeChange()"
+        class="filter-select"
+      >
+        <option value="all">Sve notifikacije</option>
+        <option value="user">Korisnički upiti</option>
+        <option value="system">Sistemske obavijesti</option>
+      </select>
+    </div>
+
+    <!-- Pretraga po korisniku -->
+    <div class="filter-group">
+      <input
+        type="text"
+        placeholder="Pretraži po korisniku 🔍"
+        [(ngModel)]="userSearch"
+        (input)="onUserSearch()"
+        class="filter-input"
+      />
+    </div>
+
+    <!-- Status filter -->
+    <div class="filter-group">
+      <select
+        [(ngModel)]="statusSearch"
+        (change)="onStatusChange()"
+        class="filter-select"
+      >
+        <option value="all">Svi statusi</option>
+        <option value="new">Novo</option>
+        <option value="replied">Odgovoreno</option>
+      </select>
+    </div>
+
+    <!-- Datum filter -->
+    <div class="filter-group date-filter">
+      <input
+        type="date"
+        [(ngModel)]="dateSearch"
+        (change)="onDateChange($event)"
+        class="filter-input"
+        placeholder="Pretraži po datumu 📅"
+      />
+      <button
+        *ngIf="dateSearch"
+        class="btn-clear-date"
+        (click)="clearDateFilter()"
+        title="Očisti datum"
+      >
+        ✕
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading-container">
+    <p>Učitavanje notifikacija...</p>
+  </div>
+
+  <!-- Empty state -->
+  <div *ngIf="!loading && filtered.length === 0" class="empty-state">
+    <p>Nema notifikacija za prikaz.</p>
+  </div>
+
+  <!-- Tabela -->
+  <table class="notifications-table" *ngIf="!loading && filtered.length > 0">
     <thead>
     <tr>
+      <th>Tip</th> <!-- 🔥 NOVA KOLONA -->
       <th>Korisnik</th>
       <th>Email</th>
       <th>Tema</th>
@@ -41,24 +107,32 @@
     </thead>
 
     <tbody>
-    <tr *ngFor="let n of filtered">
-      <td>{{ n.userFullName }}</td>
-      <td>{{n.userEmail}}</td>
-      <td>{{ n.message }}</td>
-      <td>{{ n.sentAt | date:'dd/MM/yyyy' }}</td>
-      <td>{{ statusLabel(n) }}</td>
+    <tr *ngFor="let n of filtered" [class.unread-row]="!n.isRead" [class.system-row]="n.isSystemGenerated">
+      <!-- 🔥 TIP -->
       <td>
-        <span class="badge-new" *ngIf="!n.isRead">Novo</span>
-
-        <a *ngIf="!n.isRead" (click)="openDialog(n)">Odgovori</a>
-        <a *ngIf="n.isRead" (click)="openDialog(n)">Pregled</a>
+          <span class="type-badge" [class.type-system]="n.isSystemGenerated">
+            {{ n.isSystemGenerated ? '🤖' : '👤' }}
+          </span>
       </td>
-
-
-
+      <td class="user-cell">{{ n.userFullName || 'Svi korisnici' }}</td>
+      <td class="email-cell">{{ n.userEmail || '-' }}</td>
+      <td class="message-cell">{{ n.message }}</td>
+      <td>{{ formatDate(n.sentAt) }}</td>
+      <td>
+          <span class="status-badge" [ngClass]="statusClass(n)">
+            {{ statusLabel(n) }}
+          </span>
+      </td>
+      <td class="action-cell">
+        <button class="btn-action" (click)="openDialog(n)" *ngIf="!n.isSystemGenerated">
+          {{ n.isRead ? 'Pregled' : 'Odgovori' }}
+        </button>
+        <button class="btn-action view-only" (click)="openDialog(n)" *ngIf="n.isSystemGenerated">
+          Pregled
+        </button>
+      </td>
     </tr>
     </tbody>
   </table>
-
 </div>
 

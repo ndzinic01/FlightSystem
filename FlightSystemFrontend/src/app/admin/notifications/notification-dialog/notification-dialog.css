@@ -1,0 +1,133 @@
+.dialog-container {
+  padding: 24px;
+}
+
+.dialog-title {
+  margin: 0 0 24px 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.dialog-content {
+  margin-bottom: 24px;
+}
+
+/* INFO SECTION */
+.info-section {
+  background: #f9fafb;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.info-row label {
+  font-weight: 600;
+  color: #4a5568;
+  font-size: 14px;
+}
+
+.info-row span {
+  color: #111827;
+  font-size: 14px;
+}
+
+/* MESSAGE SECTION */
+.message-section,
+.reply-section {
+  margin-bottom: 20px;
+}
+
+.message-section label,
+.reply-section label {
+  display: block;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.message-box {
+  background: #f3f4f6;
+  padding: 14px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  color: #111827;
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+.reply-box {
+  background: #dbeafe;
+  border-color: #93c5fd;
+}
+
+textarea {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* ACTIONS */
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.btn {
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-cancel {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.btn-cancel:hover {
+  background: #e5e7eb;
+}
+
+.btn-send {
+  background: #2563eb;
+  color: white;
+}
+
+.btn-send:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+.btn-send:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
