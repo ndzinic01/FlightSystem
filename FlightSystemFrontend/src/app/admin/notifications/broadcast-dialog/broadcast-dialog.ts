@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { NotificationService } from '../../../Services/notification-service';
 import { FlightService, FlightDTO } from '../../../Services/flight-service';
@@ -20,7 +20,8 @@ export class BroadcastDialog {
     public dialogRef: MatDialogRef<BroadcastDialog>,
     private notificationService: NotificationService,
     private flightService: FlightService,
-    private snack: SnackbarService
+    private snack: SnackbarService,
+    private cd: ChangeDetectorRef // 🔥 DODANO
   ) {
     this.loadFlights();
   }
@@ -29,6 +30,7 @@ export class BroadcastDialog {
     this.flightService.getAll().subscribe({
       next: (data) => {
         this.flights = data;
+        this.cd.detectChanges(); // 🔥 DODANO
       }
     });
   }
@@ -39,25 +41,47 @@ export class BroadcastDialog {
       return;
     }
 
+    if (this.message.length > 500) {
+      this.snack.error('Poruka ne može biti duža od 500 karaktera.');
+      return;
+    }
+
     this.loading = true;
+    this.cd.detectChanges(); // 🔥 DODANO
 
     this.notificationService.broadcast({
       message: this.message,
       flightId: this.selectedFlightId || undefined
     }).subscribe({
       next: (res) => {
-        this.loading = false;
-        this.snack.success(res.message || 'Broadcast notifikacija poslana.');
-        this.dialogRef.close(true);
+        // 🔥 Koristi setTimeout da izbjegneš change detection grešku
+        setTimeout(() => {
+          this.loading = false;
+          this.snack.success(res.message || 'Broadcast notifikacija poslana.');
+          this.dialogRef.close(true);
+        }, 0);
       },
       error: () => {
-        this.loading = false;
-        this.snack.error('Greška prilikom slanja notifikacije.');
+        setTimeout(() => {
+          this.loading = false;
+          this.snack.error('Greška prilikom slanja notifikacije.');
+          this.cd.detectChanges();
+        }, 0);
       }
     });
   }
 
   cancel() {
     this.dialogRef.close();
+  }
+
+  getCurrentDate(): string {
+    return new Date().toLocaleDateString('sr-Latn-BA', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
   }
 }

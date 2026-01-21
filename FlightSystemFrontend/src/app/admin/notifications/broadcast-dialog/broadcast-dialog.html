@@ -1,1 +1,68 @@
-<p>broadcast-dialog works!</p>
+<div class="dialog-container">
+  <h2 class="dialog-title">📢 Pošalji obavijest svim korisnicima</h2>
+
+  <div class="dialog-content">
+    <!-- Info box -->
+    <div class="info-box">
+      <span class="info-icon">ℹ️</span>
+      <p>Ova poruka će biti poslana svim aktivnim korisnicima sistema.</p>
+    </div>
+
+    <!-- Flight selector (opciono) -->
+    <div class="form-group">
+      <label>Vezano za let (opciono):</label>
+      <select [(ngModel)]="selectedFlightId" class="form-select">
+        <option [ngValue]="null">Nije vezano za konkretan let</option>
+        <option *ngFor="let flight of flights" [ngValue]="flight.id">
+          {{ flight.code }} - {{ flight.destination }}
+        </option>
+      </select>
+      <small class="hint">Ako je poruka vezana za određeni let, odaberite ga iz liste.</small>
+    </div>
+
+    <!-- Message textarea -->
+    <div class="form-group">
+      <label>Poruka: <span class="required">*</span></label>
+      <textarea
+        [(ngModel)]="message"
+        placeholder="Unesite poruku koju želite poslati svim korisnicima...
+
+Primjer: 'Obavještavamo vas da će od 1. decembra 2025. biti promijenjeno radno vrijeme našeg call centra.'"
+        rows="8"
+        class="message-textarea"
+        [disabled]="loading"
+      ></textarea>
+      <div class="char-counter">
+        {{ message.length }} / 500 karaktera
+      </div>
+    </div>
+
+    <!-- Preview -->
+    <div class="preview-section" *ngIf="message.trim()">
+      <label>Pregled poruke:</label>
+      <div class="message-preview">
+        <div class="preview-header">
+          <span class="preview-icon">🔔</span>
+          <span class="preview-title">Sistemska obavijest</span>
+        </div>
+        <p class="preview-text">{{ message }}</p>
+        <span class="preview-date">{{ getCurrentDate() }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dialog Actions -->
+  <div class="dialog-actions">
+    <button class="btn btn-cancel" (click)="cancel()" [disabled]="loading">
+      Odustani
+    </button>
+    <button
+      class="btn btn-send"
+      (click)="send()"
+      [disabled]="!message.trim() || loading"
+    >
+      <span *ngIf="!loading">📤 Pošalji svima</span>
+      <span *ngIf="loading">Slanje...</span>
+    </button>
+  </div>
+</div>

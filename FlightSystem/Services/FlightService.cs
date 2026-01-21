@@ -99,6 +99,11 @@ namespace FlightSystem.Services
             var flight = await _db.Flights.FindAsync(id);
             if (flight == null) return null;
 
+            // 🔥 Čuvaj stare vrednosti
+            var oldStatus = flight.Status;
+            var oldDepartureTime = flight.DepartureTime;
+
+            // Update
             flight.Code = dto.Code;
             flight.DestinationId = dto.DestinationId;
             flight.AirlineId = dto.AirlineId;
@@ -110,6 +115,28 @@ namespace FlightSystem.Services
             flight.Status = dto.Status;
 
             await _db.SaveChangesAsync();
+
+            // 🔥 AUTOMATSKE NOTIFIKACIJE
+            var notificationService = new NotificationService(_db); // Ili inject preko DI
+
+            // Otkazan let
+            if (oldStatus != FlightStatus.Cancelled && dto.Status == FlightStatus.Cancelled)
+            {
+                await notificationService.NotifyFlightCancellationAsync(id, "Operativni razlozi");
+            }
+
+            // Promjena vremena
+            if (oldDepartureTime != dto.DepartureTime)
+            {
+                await notificationService.NotifyFlightRescheduleAsync(id, dto.DepartureTime);
+            }
+
+            // Zakašnjenje
+            if (oldStatus != FlightStatus.Delayed && dto.Status == FlightStatus.Delayed)
+            {
+                var delayMinutes = (int)(dto.DepartureTime - oldDepartureTime).TotalMinutes;
+                await notificationService.NotifyFlightDelayAsync(id, delayMinutes);
+            }
 
             return await GetById(id);
         }
